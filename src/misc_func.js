@@ -29,7 +29,7 @@ function findDuplicates(activeRow, chatId) {
   var ids = idRange.flat();
   for (var i = dates.length - 1; i >= 0; i--) {
     // Logger.log(dates[i].toString() + "|" + dateTime + "|" + ids[i] + "|" + telegramId )
-    if (dates[i].toString() === dateTime && ids[i] == telegramId) {
+    if (dates[i].toString() === dateTime && ids[i] == chatId) {
       Logger.log('is duplicate? ' + true);
       return true;
     }
