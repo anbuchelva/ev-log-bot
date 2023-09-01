@@ -35,3 +35,13 @@ var editEntry = {
   ],
   resize_keyboard: true,
 };
+
+var deleteData = {
+  inline_keyboard: [
+    [
+      { text: '✅ Yes', callback_data: 'delete_all' },
+      { text: '❌ No', callback_data: 'delete_none' },
+    ],
+  ],
+  resize_keyboard: true,
+};

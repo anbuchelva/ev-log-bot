@@ -41,14 +41,20 @@ function doPost(request) {
         processCallback(data, chatId, messageId);
       }
     } else {
-      // Logger.log(`${username} (${userId}) was trying to access the bot. Access denied.`);
-      logMessage(username + ' ' + userId + ' Denied access');
-      sendToTelegram(
-        chatId,
-        `Hey ${firstName}! Thank you for the interest in using this bot. ` +
-          'But unfortunately, this is only for personal use. ' +
-          'You may get help from <a href="https://t.me/ather_india/113">Ather India Group</a> for more information about this project.'
-      );
+      if (message.text === '/register') {
+        sendToTelegram(
+          chatId,
+          'A message has been sent to the bot admin on your registration request. \n\nPlease wait till the request is actioned. You will get a notification on the approval or waiting list or denial of the request. ETA 24 hours. \n\nDo not clear the history or block the bot till the time.'
+        );
+      } else {
+        // Logger.log(`${username} (${userId}) was trying to access the bot. Access denied.`);
+        logMessage(username + ' ' + userId + ' Denied access');
+        sendToTelegram(
+          chatId,
+          `Hey ${firstName}! Thank you for the interest in using this bot.\n\nYou must join @ather_india group and use the /register option to get access to the bot.\n\n` +
+            'Also read the <a href="https://telegra.ph/Terms-and-Conditions-09-01">terms and conditions</a> before doing it.'
+        );
+      }
     }
   } catch (error) {
     sendToTelegram(ADMIN_ID, `Error in doPost(): ${error.message}`);
@@ -90,6 +96,12 @@ function processText(message, chatId) {
       chatId,
       '🙏 <b>Welcome to EV Log Bot</b> 🙏\n\nYou need agree to the <a href="https://telegra.ph/Terms-and-Conditions-09-01">terms and conditions</a> in order to use this bot. \n\nYou can just delete and block the bot, if you don\'t agree to the conditions.\n\nYou need to be part of @ather_india group to start using the bot.\n'
     );
+  } else if (message.text === '/register') {
+    sendToTelegram(chatId, 'You are a registered member. Try using other commands.');
+  } else if (message.text === '/download_data') {
+    sendToTelegram(chatId, 'Your request has been submitted. Please wait for a response, until then do not block the bot.');
+  } else if (message.text === '/delete_data') {
+    sendToTelegram(chatId, 'This will delete the data for telegram user id ' + chatId + '.  Are you sure?', deleteData);
   } else if (message.text === '/daily_charts') {
     sendToTelegram(chatId, '👇 Pick a chart for daily ride stats 📅', chartsDailyKeyboard);
   } else if (message.text === '/monthly_charts') {
