@@ -10,6 +10,7 @@ var ALLOWED_USER_IDS = USER_PROPERTIES.getProperty('ALLOWED_USER_IDS').split`,`.
 var SPREADSHEET_ID = USER_PROPERTIES.getProperty('SSID');
 var GSHEETS = SpreadsheetApp.openById(SPREADSHEET_ID);
 var DATA = GSHEETS.getSheetByName('Data');
+const USERS = GSHEETS.getSheetByName('Users');
 var TEMP = GSHEETS.getSheetByName('Temp');
 var OPTIONS = GSHEETS.getSheetByName('Options');
 var SUMMARY = GSHEETS.getSheetByName('Summary');
