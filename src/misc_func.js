@@ -262,6 +262,7 @@ function deleteData(chatId) {
     for (var i = 0; i < rowsToDelete.length; i++) {
       DATA.deleteRow(rowsToDelete[i]);
     }
+    deleteImages(chatId);
     sendToTelegram(chatId, '✅ ' + rowsToDelete.length + ' row(s) were deleted.\nDo you want to unregister from the bot?', deRegister);
   } else {
     sendToTelegram(
@@ -269,5 +270,17 @@ function deleteData(chatId) {
       '🟠 ' + 'There are no rows found matching with your Telegram ID ' + chatId + '\nDo you want to unregister from the bot?',
       deRegister
     );
+  }
+}
+
+function deleteImages(chatId) {
+  var folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
+  var files = folder.getFiles();
+  while (files.hasNext()) {
+    var file = files.next();
+    if (file.getName().startsWith(chatId)) {
+      file.setTrashed(true);
+      Logger.log('Deleted file: ' + file.getName());
+    }
   }
 }
