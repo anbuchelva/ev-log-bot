@@ -58,7 +58,7 @@ function doPost(request) {
         sendToTelegram(
           chatId,
           `Hey ${firstName}! Thank you for the interest in using this bot.\n\nYou must join @ather_india group and use the /register option to get access to the bot.\n\n` +
-            'Also read the <a href="https://telegra.ph/Terms-and-Conditions-09-01">terms and conditions</a> before doing it.'
+            'Also read the <a href="https://telegra.ph/Terms-and-Conditions-09-01">terms and conditions</a> before doing it.' + '\nYour numeric Telegram ID is ' + chatId + '.'
         );
       }
     }
