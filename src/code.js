@@ -102,6 +102,14 @@ function processCallback(data, chatId, messageId) {
     } else if (regApproval === 'waitlist') {
       addUserToWaitList(regUser);
     }
+  } else if (data == 'delete_all') {
+    deleteData(chatId);
+  } else if (data == 'download_all') {
+    downloadData(chatId);
+  } else if (data == 'deregister_yes') {
+    removeUser(chatId);
+  } else if (data == 'deregister_no' || data == 'delete_none') {
+    sendToTelegram(chatId, '✅ No changes were done.');
   }
 }
 
@@ -117,7 +125,7 @@ function processText(message, chatId) {
   } else if (message.text === '/download_data') {
     sendToTelegram(chatId, 'Your request has been submitted. Please wait for a response, until then do not block the bot.');
   } else if (message.text === '/delete_data') {
-    sendToTelegram(chatId, 'This will delete all the data stored against your telegram id ' + chatId + '.\n\nDo you want to continue?', deleteData);
+    sendToTelegram(chatId, 'This will delete all the data stored against your telegram id ' + chatId + '.\n\nDo you want to continue?', deleteDataKeyboard);
   } else if (message.text === '/daily_charts') {
     sendToTelegram(chatId, '👇 Pick a chart for daily ride stats 📅', chartsDailyKeyboard);
   } else if (message.text === '/monthly_charts') {

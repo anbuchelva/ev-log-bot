@@ -36,7 +36,7 @@ var editEntry = {
   resize_keyboard: true,
 };
 
-var deleteData = {
+var deleteDataKeyboard = {
   inline_keyboard: [
     [
       { text: '✅ Yes', callback_data: 'delete_all' },
@@ -51,6 +51,16 @@ var manageData = {
     [
       { text: '⬇️ Download', callback_data: 'download_all' },
       { text: '🗑️ Delete', callback_data: 'delete_all' },
+    ],
+  ],
+  resize_keyboard: true,
+};
+
+var deRegister = {
+  inline_keyboard: [
+    [
+      { text: '✅ Yes', callback_data: 'deregister_yes' },
+      { text: '❌ No', callback_data: 'deregister_no' },
     ],
   ],
   resize_keyboard: true,

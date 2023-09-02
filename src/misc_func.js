@@ -245,3 +245,29 @@ function saveCSVToFile(data, chatId) {
   var file = folder.createFile(chatId + ' ' + getDateVal(new Date()) + '.csv', csv, MimeType.CSV);
   return file.getId();
 }
+
+function deleteData(chatId) {
+  var allData = DATA.getDataRange().getValues();
+  var rowsToDelete = [];
+
+  for (var i = allData.length - 1; i >= 0; i--) {
+    if (allData[i][17] === Number(chatId)) {
+      rowsToDelete.push(i + 1);
+    }
+  }
+  if (rowsToDelete.length > 0) {
+    rowsToDelete.sort(function (a, b) {
+      return b - a;
+    });
+    for (var i = 0; i < rowsToDelete.length; i++) {
+      DATA.deleteRow(rowsToDelete[i]);
+    }
+    sendToTelegram(chatId, '✅ ' + rowsToDelete.length + ' row(s) were deleted.\nDo you want to unregister from the bot?', deRegister);
+  } else {
+    sendToTelegram(
+      chatId,
+      '🟠 ' + 'There are no rows found matching with your Telegram ID ' + chatId + '\nDo you want to unregister from the bot?',
+      deRegister
+    );
+  }
+}
