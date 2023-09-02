@@ -2,7 +2,6 @@ function runtimeCountStop(start) {
   var updatedDate = Date(RUN_DATE_UPDATED);
   var stop = new Date();
   var currentDate = Date(getDateVal(stop));
-  Logger.log(currentDate + updatedDate);
   if (currentDate > updatedDate) {
     recordRuntime();
   }
