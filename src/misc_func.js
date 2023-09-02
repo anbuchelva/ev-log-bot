@@ -172,6 +172,7 @@ function deleteEntry(chatId, messageId) {
 }
 
 function sendApproval(firstName, chatId, username) {
+  USERS.appendRow([new Date(), chatId, 'Registered']);
   var approveRequests = {
     inline_keyboard: [
       [
@@ -187,6 +188,19 @@ function sendApproval(firstName, chatId, username) {
     'An user has requested access to the bot.\nUser Name: @' + username + '\nFirst Name: ' + firstName + '\nID :' + chatId,
     approveRequests
   );
+}
+
+function updateUserApproval(chatId, newStatus) {
+  var allUsers = USERS.getDataRange().getValues();
+  for (var i = 1; i < allUsers.length; i++) {
+    Logger.log(allUsers[i]);
+    if (allUsers[i][1] == chatId) {
+      data = [[new Date(), chatId, newStatus]];
+      USERS.getRange(i + 1, 1, 1, 3).setValues(data);
+    } else {
+      sendToTelegram(ADMIN_ID, chatId + ' has not registered yet.');
+    }
+  }
 }
 
 function downloadData(chatId) {
