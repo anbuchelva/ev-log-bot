@@ -39,3 +39,27 @@ function denyUser(chatId){
   Utilities.sleep(1000);
   sendToTelegram(chatId,"❌ Your registration request has been denied. Contact @ather_india for more information.")
 }
+
+function checkUserInGroup(chatId=ADMIN_ID) {
+  Logger.log(GROUP_CHECK)
+  if (GROUP_CHECK === 'false'){
+    return true // if GROUP CHECK is set to false, don't check the group.
+  } else {    
+    var url = TELEGRAM_URL + 'getChatMember?chat_id=' + TELEGRAM_GROUP_ID + "&user_id=" + chatId;  
+    try {
+      var response = UrlFetchApp.fetch(url);
+      var data = JSON.parse(response.getContentText());      
+      if (data.result.status !== 'left') {  // if the result is not equalt to 'left' then the user is part of the group.
+        // Logger.log(chatId + ' is part of the group')
+        return true;
+      } else {
+        // Logger.log(chatId + ' is not in the group')
+        return false;
+      }
+    } catch (e) {
+      Logger.log('Error: ' + e);    
+      return false;
+    }
+  }
+}
+

@@ -32,13 +32,18 @@ function doPost(request) {
       } = callback_query;
     }
 
-    if (ALLOWED_USER_IDS.includes(chatId)) {
-      if (photo !== undefined) {
-        processPhoto(message, chatId, messageId);
-      } else if (text !== undefined) {
-        processText(message, chatId);
-      } else if (callback_query !== undefined) {
-        processCallback(data, chatId, messageId);
+    if (ALLOWED_USER_IDS.includes(chatId)) {      
+      if (checkUserInGroup(chatId)){
+        if (photo !== undefined) {
+          processPhoto(message, chatId, messageId);
+        } else if (text !== undefined) {
+          processText(message, chatId);
+        } else if (callback_query !== undefined) {
+          processCallback(data, chatId, messageId);
+        }
+      } else {
+          sendToTelegram(chatId, '❌ You must be part of the @ather_india group to use this bot.'
+        );
       }
     } else {
       if (message.text === '/register') {
