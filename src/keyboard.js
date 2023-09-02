@@ -46,4 +46,13 @@ var deleteData = {
   resize_keyboard: true,
 };
 
+var manageData = {
+  inline_keyboard: [
+    [
+      { text: '⬇️ Download', callback_data: 'download_all' },
+      { text: '🗑️ Delete', callback_data: 'delete_all' },
+    ],
+  ],
+  resize_keyboard: true,
+};
 

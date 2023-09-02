@@ -71,7 +71,6 @@ function doPost(request) {
 
 // Function to process callbacks
 function processCallback(data, chatId, messageId) {
-  sendToTelegram(ADMIN_ID, data)
   if (data == 'distance_vs_range') {
     sendDistanceRange(chatId);
   } else if (data === 'distance_vs_efficiency') {
@@ -119,7 +118,7 @@ function processText(message, chatId) {
   } else if (message.text === '/download_data') {
     sendToTelegram(chatId, 'Your request has been submitted. Please wait for a response, until then do not block the bot.');
   } else if (message.text === '/delete_data') {
-    sendToTelegram(chatId, 'This will delete the data for telegram user id ' + chatId + '.  Are you sure?', deleteData);
+    sendToTelegram(chatId, 'This will delete all the data stored against your telegram id ' + chatId + '.\n\nDo you want to continue?', deleteData);
   } else if (message.text === '/daily_charts') {
     sendToTelegram(chatId, '👇 Pick a chart for daily ride stats 📅', chartsDailyKeyboard);
   } else if (message.text === '/monthly_charts') {
