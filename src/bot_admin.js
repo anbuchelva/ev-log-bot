@@ -1,7 +1,8 @@
 function checkUserInApprovedList(chatId) {
   var currentApprovedUsers = ALLOWED_USER_IDS;
   try {
-    const index = currentApprovedUsers.indexOf(chatId.toString());
+    Logger.log(ALLOWED_USER_IDS);
+    const index = currentApprovedUsers.indexOf(chatId);
     Logger.log('Index: ' + index);
     if (index > 0) {
       return currentApprovedUsers;
@@ -29,10 +30,11 @@ function approveUser(chatId) {
 function removeUser(chatId) {
   var currentApprovedUsers = checkUserInApprovedList(chatId);
   if (currentApprovedUsers) {
-    const index = currentApprovedUsers.indexOf(chatId.toString());
-    var updatedUserList = currentApprovedUsers.splice(index, 1);
-    Logger.log('Existing Users: ' + currentApprovedUsers + ' | New list: ' + updatedUserList);
-    USER_PROPERTIES.setProperty('ALLOWED_USER_IDS', updatedUserList.toString());
+    const index = currentApprovedUsers.indexOf(chatId);
+    Logger.log('Existing Users: ' + currentApprovedUsers);
+    currentApprovedUsers.splice(index, 1);
+    Logger.log('Updated list of Users: ' + currentApprovedUsers);
+    USER_PROPERTIES.setProperty('ALLOWED_USER_IDS', currentApprovedUsers.toString());
     updateUserApproval(chatId, 'Unregistered');
     sendToTelegram(ADMIN_ID, chatId + " has been removed from the approved user's list.");
     Utilities.sleep(1000);
