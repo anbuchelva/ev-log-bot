@@ -171,7 +171,7 @@ function deleteEntry(chatId, messageId) {
   }
 }
 
-function sendApproval(firstName, chatId, username){
+function sendApproval(firstName, chatId, username) {
   var approveRequests = {
     inline_keyboard: [
       [
@@ -182,7 +182,11 @@ function sendApproval(firstName, chatId, username){
     ],
     resize_keyboard: true,
   };
-    sendToTelegram(ADMIN_ID, 'An user has requested access to the bot.\nUser Name: @' + username + '\nFirst Name: ' + firstName + '\nID :' + chatId, approveRequests)
+  sendToTelegram(
+    ADMIN_ID,
+    'An user has requested access to the bot.\nUser Name: @' + username + '\nFirst Name: ' + firstName + '\nID :' + chatId,
+    approveRequests
+  );
 }
 // function editMessage(chatId, initialMessage, updatedMessage) {
 //   var response = sendToTelegram(chatId, initialMessage);

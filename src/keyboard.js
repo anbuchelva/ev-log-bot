@@ -29,7 +29,7 @@ var chartsMonthlyKeyboard = {
 var editEntry = {
   inline_keyboard: [
     [
-      { text: '✏️ Edit', web_app: { url: WEBHOOK_URL } },
+      { text: '✏️ Edit', callback_data: 'edit_entry' },
       { text: '🗑️ Delete', callback_data: 'delete_entry' },
     ],
   ],
@@ -55,4 +55,3 @@ var manageData = {
   ],
   resize_keyboard: true,
 };
-

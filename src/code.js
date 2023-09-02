@@ -32,8 +32,8 @@ function doPost(request) {
       } = callback_query;
     }
 
-    if (ALLOWED_USER_IDS.includes(chatId)) {      
-      if (checkUserInGroup(chatId)){
+    if (ALLOWED_USER_IDS.includes(chatId)) {
+      if (checkUserInGroup(chatId)) {
         if (photo !== undefined) {
           processPhoto(message, chatId, messageId);
         } else if (text !== undefined) {
@@ -42,8 +42,7 @@ function doPost(request) {
           processCallback(data, chatId, messageId);
         }
       } else {
-          sendToTelegram(chatId, '❌ You must be part of the @ather_india group to use this bot.'
-        );
+        sendToTelegram(chatId, '❌ You must be part of the @ather_india group to use this bot.');
       }
     } else {
       if (message.text === '/register') {
@@ -52,7 +51,7 @@ function doPost(request) {
           'A message has been sent to the bot admin on your registration request. \n\nPlease wait till the request is actioned. You will get a notification on the approval or waiting list or denial of the request. ETA 24 hours. \n\nDo not clear the history or block the bot till the time.'
         );
         Utilities.sleep(1000);
-        sendApproval(firstName, chatId, username)
+        sendApproval(firstName, chatId, username);
       } else {
         // Logger.log(`${username} (${userId}) was trying to access the bot. Access denied.`);
         logMessage(username + ' ' + userId + ' Denied access');
@@ -93,15 +92,15 @@ function processCallback(data, chatId, messageId) {
     sendTopAverageSpeedMon(chatId);
   } else if (data == 'delete_entry') {
     deleteEntry(chatId, messageId);
-  } else if (data.split('_')[0] === 'registration'){
-    var regApproval = data.split('_')[1]
-    var regUser = data.split('_')[2]
-    if (regApproval === 'approve'){
-      approveUser(regUser)
-    } else if (regApproval === 'deny'){
-      denyUser(regUser)
-    } else if (regApproval === 'waitlist'){
-      addUserToWaitList(regUser)
+  } else if (data.split('_')[0] === 'registration') {
+    var regApproval = data.split('_')[1];
+    var regUser = data.split('_')[2];
+    if (regApproval === 'approve') {
+      approveUser(regUser);
+    } else if (regApproval === 'deny') {
+      denyUser(regUser);
+    } else if (regApproval === 'waitlist') {
+      addUserToWaitList(regUser);
     }
   }
 }
