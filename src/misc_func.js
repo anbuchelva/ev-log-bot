@@ -188,14 +188,46 @@ function sendApproval(firstName, chatId, username) {
     approveRequests
   );
 }
-// function editMessage(chatId, initialMessage, updatedMessage) {
-//   var response = sendToTelegram(chatId, initialMessage);
-//   var jsonResponse = JSON.parse(response.getContentText());
-//   var messageID = jsonResponse.result.message_id;
 
-//   // Wait for a while to simulate processing
-//   Utilities.sleep(5000); // Simulate 5 seconds of processing time
+function downloadData(chatId) {
+  var allData = DATA.getDataRange().getValues();
+  var userData = [allData[0]]; // Copy the header row
+  var timestamp = new Date().toLocaleString().replace(/[:.]/g, ':');
+  for (var i = 1; i < allData.length; i++) {
+    if (allData[i][17] === Number(chatId)) {
+      userData.push(allData[i]);
+    }
+  }
+  if (userData.length > 1) {
+    userDataFileID = saveCSVToFile(userData, chatId, timestamp);
+    var file = DriveApp.getFileById(userDataFileID);
+    var fileBlob = file.getBlob();
+    sendDocToTelegram(chatId, fileBlob, '✅ Data Extracted at\n' + timestamp);
+    Drive.Files.remove(userDataFileID);
+  } else {
+    sendToTelegram(chatId, "❌ There's no data found for your Telegram ID.");
+  }
+}
 
-//   // Update the initial message with the new content
-//   sendToTelegram(chatId, updatedMessage, null, messageID);
-// }
+function convertToCSV(data) {
+  var csv = '';
+  for (var i = 0; i < data.length; i++) {
+    var row = data[i];
+    for (var j = 0; j < row.length; j++) {
+      if (j > 0) {
+        csv += ',';
+      }
+      var cellValue = String(row[j]).replace(/"/g, '""');
+      csv += '"' + cellValue + '"';
+    }
+    csv += '\n';
+  }
+  return csv;
+}
+
+function saveCSVToFile(data, chatId) {
+  var csv = convertToCSV(data);
+  var folder = DriveApp.getFolderById(DRIVE_ID_USER_DATA);
+  var file = folder.createFile(chatId + ' ' + getDateVal(new Date()) + '.csv', csv, MimeType.CSV);
+  return file.getId();
+}

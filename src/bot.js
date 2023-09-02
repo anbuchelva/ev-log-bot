@@ -88,3 +88,20 @@ function sendPhotoToTelegram(chatId, photoBlob, caption) {
   Logger.log(response.getContentText()); // Log the response content
   return response;
 }
+
+function sendDocToTelegram(chatId, fileBlob, caption) {
+  var payload = {
+    method: 'sendDocument',
+    chat_id: String(chatId),
+    caption: caption,
+    document: fileBlob,
+  };
+  var data = {
+    method: 'post',
+    payload: payload,
+  };
+
+  var response = UrlFetchApp.fetch(TELEGRAM_URL, data);
+  Logger.log(response.getContentText());
+  return response;
+}
