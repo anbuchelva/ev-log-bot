@@ -197,6 +197,7 @@ function updateUserApproval(chatId, newStatus) {
     if (allUsers[i][1] == chatId) {
       data = [[new Date(), chatId, newStatus]];
       USERS.getRange(i + 1, 1, 1, 3).setValues(data);
+      USERS.getRange(2, 1, allUsers.length - 1, 3).sort({ column: 1, ascending: true });
     } else {
       sendToTelegram(ADMIN_ID, chatId + ' has not registered yet.');
     }
