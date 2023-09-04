@@ -1,5 +1,3 @@
 function sendScheduledReminders() {
-  if (SUMMARY.getRange('B2').getValue() == 0) {
-    sendToTelegram(ADMIN_ID, 'Its time to update your ride! 🛵');
-  }
+  sendToTelegram(TELEGRAM_GROUP_ID, 'Reminder: Its time to update your ride! 🛵');
 }
