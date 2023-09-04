@@ -59,8 +59,14 @@ function doPost(request) {
         logMessage(username + ' ' + userId + ' Denied access');
         sendToTelegram(
           chatId,
-          `Hey ${firstName}! Thank you for the interest in using this bot.\n\nYou must join @ather_india group and use the /register option to get access to the bot.\n\n` +
-            'Also read the <a href="https://telegra.ph/Terms-and-Conditions-09-01">terms and conditions</a> before doing it.' + '\nYour numeric Telegram ID is ' + chatId + '.'
+          `Hey ${firstName}! Thank you for the interest in using this bot.` + 
+          '\n\n<b>You must follow these steps to use the bot.</b>' + 
+          '\n1. Read the <a href="https://telegra.ph/Terms-and-Conditions-09-01">terms and conditions</a>.' + 
+          '\n2. Send /register command to register yourself, if you agree to the Terms and Conditions.'+
+          '\n3. Join @ather_india group.' + 
+          '\n4. Wait for the registration request to be actioned.'+ 
+          '\n\nYour numeric Telegram ID is ' + chatId + '. The telegram ID is for reference, if you are going to contact the bot admin.\n' +
+          '\n<code>-------------------------------</code>'
         );
       }
     }
