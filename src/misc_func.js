@@ -57,12 +57,12 @@ function updateActiveUser(chatId) {
   if (!lockStatus) {
     OPTIONS.getRange('B3:B4').setValues([[chatId], [true]]);
   } else {
-    while (lockStatus) {
-      Utilities.sleep(1000);
-      lockStatus = lockStatusCell.getValue();
-    }
-    OPTIONS.getRange('B3:B4').setValues([[chatId], [true]]);
-    // sendToTelegram(chatId,'the status is true')
+    // while (lockStatus) {
+    //   Utilities.sleep(1000);
+    //   lockStatus = lockStatusCell.getValue();
+    // }
+    // OPTIONS.getRange('B3:B4').setValues([[chatId], [false]]);
+    sendToTelegram(chatId, 'Someone else is running a query now and the app is currently busy. Please try after some time!');
   }
 }
 
