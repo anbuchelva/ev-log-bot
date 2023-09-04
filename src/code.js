@@ -78,7 +78,7 @@ function doPost(request) {
 
 // Function to process callbacks
 function processCallback(data, chatId, messageId) {
-  if (data == 'distance_vs_range') {
+  if (data === 'distance_vs_range') {
     sendDistanceRange(chatId);
   } else if (data === 'distance_vs_efficiency') {
     sendDistanceEfficiency(chatId);
@@ -98,7 +98,7 @@ function processCallback(data, chatId, messageId) {
     sendTopAverageSpeedDay(chatId);
   } else if (data === 'top_vs_avg_speed_mon') {
     sendTopAverageSpeedMon(chatId);
-  } else if (data == 'delete_entry') {
+  } else if (data === 'delete_entry') {
     deleteEntry(chatId, messageId);
   } else if (data === 'edit_entry'){
     editEntry(chatId, messageId);
@@ -112,15 +112,15 @@ function processCallback(data, chatId, messageId) {
     } else if (regApproval === 'waitlist') {
       addUserToWaitList(regUser);
     }
-  } else if (data == 'download_all') {
+  } else if (data === 'download_all') {
     downloadData(chatId);
-  } else if (data == 'delete_all') {
+  } else if (data === 'delete_all') {
     sendToTelegram(chatId, 'This will delete all the data stored against your telegram id ' + chatId + '.\n\nDo you want to continue?', deleteDataKeyboard);
-  } else if (data == 'delete_yes') {
+  } else if (data === 'delete_yes') {
     deleteData(chatId);
-  } else if (data == 'deregister_yes') {
+  } else if (data === 'deregister_yes') {
     removeUser(chatId);
-  } else if (data == 'deregister_no' || data == 'delete_none') {
+  } else if (data === 'deregister_no' || data == 'delete_none') {
     sendToTelegram(chatId, '✅ No changes were done.');
   }
 }
