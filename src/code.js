@@ -100,6 +100,8 @@ function processCallback(data, chatId, messageId) {
     sendTopAverageSpeedMon(chatId);
   } else if (data == 'delete_entry') {
     deleteEntry(chatId, messageId);
+  } else if (data === 'edit_entry'){
+    editEntry(chatId, messageId);
   } else if (data.split('_')[0] === 'registration') {
     var regApproval = data.split('_')[1];
     var regUser = data.split('_')[2];
@@ -202,7 +204,7 @@ function processPhoto(message, chatId, messageId) {
           '\nBattery Usage: ' +
           formattedDrain;
         // var response = sendToTelegram(chatId, messageBody);
-        var response = replaceMessage(chatId, imageProcessMsgId, messageId, messageBody, editEntry);
+        var response = replaceMessage(chatId, imageProcessMsgId, messageId, messageBody, editEntryKeyboard);
         var jsonResponse = JSON.parse(response.getContentText());
         var messageID = jsonResponse.result.message_id;
         DATA.getRange(lastRow, 17, 1, 3).setValues([[messageID, chatId, time_now]]);

@@ -26,7 +26,7 @@ var chartsMonthlyKeyboard = {
   ],
 };
 
-var editEntry = {
+var editEntryKeyboard = {
   inline_keyboard: [
     [
       { text: '✏️ Edit', callback_data: 'edit_entry' },
