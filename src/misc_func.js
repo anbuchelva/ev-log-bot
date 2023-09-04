@@ -8,7 +8,7 @@ function appendData(targetSheet, value) {
 
 // Log messages in sheet
 function logMessage(request) {
-  if ((LOG = true)) {
+  if (LOG === 'true') {
     appendData(REQUESTS, [time_now, JSON.stringify(request, null, 4)]);
   }
 }
