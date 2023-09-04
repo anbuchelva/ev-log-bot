@@ -32,7 +32,9 @@ function doPost(request) {
       } = callback_query;
     }
 
-    if (ALLOWED_USER_IDS.includes(chatId)) {
+    if (chatId == Number(TELEGRAM_GROUP_ID)) {
+      Logger.log(message)
+    } else if (ALLOWED_USER_IDS.includes(chatId)) {
       if (checkUserInGroup(chatId)) {
         if (photo !== undefined) {
           processPhoto(message, chatId, messageId);
