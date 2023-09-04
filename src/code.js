@@ -110,10 +110,12 @@ function processCallback(data, chatId, messageId) {
     } else if (regApproval === 'waitlist') {
       addUserToWaitList(regUser);
     }
-  } else if (data == 'delete_all') {
-    deleteData(chatId);
   } else if (data == 'download_all') {
     downloadData(chatId);
+  } else if (data == 'delete_all') {
+    sendToTelegram(chatId, 'This will delete all the data stored against your telegram id ' + chatId + '.\n\nDo you want to continue?', deleteDataKeyboard);
+  } else if (data == 'delete_yes') {
+    deleteData(chatId);
   } else if (data == 'deregister_yes') {
     removeUser(chatId);
   } else if (data == 'deregister_no' || data == 'delete_none') {
@@ -130,16 +132,16 @@ function processText(message, chatId) {
     );
   } else if (message.text === '/register') {
     sendToTelegram(chatId, 'You are a registered member. Try using other commands.');
-  } else if (message.text === '/download_data') {
-    sendToTelegram(chatId, 'Your request has been submitted. Please wait for a response, until then do not block the bot.');
-  } else if (message.text === '/delete_data') {
-    sendToTelegram(chatId, 'This will delete all the data stored against your telegram id ' + chatId + '.\n\nDo you want to continue?', deleteDataKeyboard);
+  } else if (message.text === '/manage_data') {
+    sendToTelegram(chatId, 'You can download and delete your data from this app. Choose an option', manageData);
+    // } else if (message.text === '/delete_data') {
+    //   sendToTelegram(chatId, 'This will delete all the data stored against your telegram id ' + chatId + '.\n\nDo you want to continue?', deleteDataKeyboard);
   } else if (message.text === '/daily_charts') {
     sendToTelegram(chatId, '👇 Pick a chart for daily ride stats 📅', chartsDailyKeyboard);
   } else if (message.text === '/monthly_charts') {
     sendToTelegram(chatId, '👇 Pick a chart for monthly ride stats 🗓️', chartsMonthlyKeyboard);
-  } else if (message.text === '/help') {
-    sendToTelegram(chatId, 'Get help from <a href="https://t.me/ather_india/113">Ather India Group</a>');
+    // } else if (message.text === '/help') {
+    //   sendToTelegram(chatId, 'Get help from <a href="https://t.me/ather_india/113">Ather India Group</a>');
   } else {
     sendToTelegram(chatId, '❌ Unknown command.\n\n✅ Get support from <a href="https://t.me/ather_india/113">Ather India Group</a>');
   }
