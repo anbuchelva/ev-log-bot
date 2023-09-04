@@ -39,7 +39,7 @@ var editEntry = {
 var deleteDataKeyboard = {
   inline_keyboard: [
     [
-      { text: '✅ Yes', callback_data: 'delete_all' },
+      { text: '✅ Yes', callback_data: 'delete_yes' },
       { text: '❌ No', callback_data: 'delete_none' },
     ],
   ],
