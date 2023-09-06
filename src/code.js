@@ -73,6 +73,7 @@ function doPost(request) {
   } catch (error) {
     sendToTelegram(ADMIN_ID, `Error in doPost(): ${error.message}`);
   }
+  runtimeCountStopPerRequst(runtimeCountStart);
   runtimeCountStop(runtimeCountStart);
 }
 

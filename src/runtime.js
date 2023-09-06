@@ -30,3 +30,9 @@ function recordRuntime() {
   };
   USER_PROPERTIES.setProperties(newData);
 }
+
+function runtimeCountStopPerRequst(start) {
+  var stop = new Date();
+  var runTime = Number(stop) - Number(start);
+  sendToTelegram(ADMIN_ID, '⏲️: ' + runTime / 1000 + ' seconds');
+}
