@@ -171,10 +171,15 @@ function deleteEntry(chatId, messageId) {
   }
 }
 
-function editEntry(chatId, messageId){  
-  sendToTelegram(chatId, '✏️ Sorry! Edit feature is not developed yet.\n\n' + 
-    'Forward the above message that you received from bot to @ather_india group and ask bot admin for edits.\n\n' +
-    'This feature is prioritized and will be available in the next release.', null, messageId)  
+function editEntry(chatId, messageId) {
+  sendToTelegram(
+    chatId,
+    '✏️ Sorry! Edit feature is not developed yet.\n\n' +
+      'Forward the above message that you received from bot to @ather_india group and ask bot admin for edits.\n\n' +
+      'This feature is prioritized and will be available in the next release.',
+    null,
+    messageId
+  );
 }
 
 function sendApproval(firstName, chatId, username) {

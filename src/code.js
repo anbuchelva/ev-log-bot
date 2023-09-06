@@ -3,6 +3,7 @@ function doPost(request) {
   var runtimeCountStart = new Date();
   try {
     var requestBody = JSON.parse(request.postData.contents);
+    Logger.log(requestBody);
     var { message, callback_query } = requestBody;
     var chatId, messageId, text, photo, webAppData, callbackType, delTransactionId;
     logMessage(requestBody);
@@ -59,14 +60,16 @@ function doPost(request) {
         logMessage(username + ' ' + userId + ' Denied access');
         sendToTelegram(
           chatId,
-          `Hey ${firstName}! Thank you for the interest in using this bot.` + 
-          '\n\n<b>You must follow these steps to use the bot.</b>' + 
-          '\n1. Read the <a href="https://telegra.ph/Terms-and-Conditions-09-01">terms and conditions</a>.' + 
-          '\n2. Send /register command to register yourself, if you agree to the Terms and Conditions.'+
-          '\n3. Join @ather_india group.' + 
-          '\n4. Wait for the registration request to be actioned.'+ 
-          '\n\nYour numeric Telegram ID is ' + chatId + '. The telegram ID is for reference, if you are going to contact the bot admin.\n' +
-          '\n<code>-------------------------------</code>'
+          `Hey ${firstName}! Thank you for the interest in using this bot.` +
+            '\n\n<b>You must follow these steps to use the bot.</b>' +
+            '\n1. Read the <a href="https://telegra.ph/Terms-and-Conditions-09-01">terms and conditions</a>.' +
+            '\n2. Send /register command to register yourself, if you agree to the Terms and Conditions.' +
+            '\n3. Join @ather_india group.' +
+            '\n4. Wait for the registration request to be actioned.' +
+            '\n\nYour numeric Telegram ID is ' +
+            chatId +
+            '. The telegram ID is for reference, if you are going to contact the bot admin.\n' +
+            '\n<code>-------------------------------</code>'
         );
       }
     }
@@ -101,7 +104,7 @@ function processCallback(data, chatId, messageId) {
     sendTopAverageSpeedMon(chatId);
   } else if (data === 'delete_entry') {
     deleteEntry(chatId, messageId);
-  } else if (data === 'edit_entry'){
+  } else if (data === 'edit_entry') {
     editEntry(chatId, messageId);
   } else if (data.split('_')[0] === 'registration') {
     var regApproval = data.split('_')[1];
