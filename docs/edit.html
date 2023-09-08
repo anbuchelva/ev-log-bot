@@ -146,7 +146,7 @@
         var diValue = parseFloat(diInput.value);
 
         if (!isNaN(duValue) && !isNaN(diValue) && duValue !== 0) {
-          var asValue = (diValue / duValue).toFixed(2);
+          var asValue = ((diValue / duValue) * 60).toFixed(2);
           asInput.value = asValue;
         } else {
           asInput.value = '';

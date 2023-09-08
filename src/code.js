@@ -279,7 +279,7 @@ function processWebAppData(chatId, webAppData) {
         if (values[i][0] === messageId) {
           DATA.getRange(i, 2, 1, 15).setValues(revisedDataAll);
           var formattedDateTime = formatDateTime(dateTime);
-          var formattedDrain = formatPercentage(distance / range);
+          var formattedDrain = formatPercentage((distance / range) * 60);
           var messageBody =
             '✏️ Your edits are live\n' +
             '\n📆 ' +
