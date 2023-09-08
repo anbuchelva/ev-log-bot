@@ -181,7 +181,7 @@ function processPhoto(message, chatId, messageId) {
         revertChanges(lastRow, driveFileId);
       } else {
         var formattedDateTime = formatDateTime(result[0][0]);
-        var formattedDrain = formatPercentage(result[0][6]);
+        var formattedDrain = formatPercentage(result[0][7]);
 
         var messageBody =
           '🛵 Ride log is updated for this trip\n' +
@@ -200,7 +200,7 @@ function processPhoto(message, chatId, messageId) {
           result[0][4] +
           ' km/h' +
           '\nAvg Speed: ' +
-          result[0][7] +
+          result[0][6] +
           ' km/h' +
           '\nProj Range: ' +
           result[0][5] +
