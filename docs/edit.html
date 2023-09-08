@@ -7,9 +7,47 @@
   </head>
   <body>
     <form method="POST">
-      <input type="text" name="Duration" />
-      <input type="text" name="Distance" />
-      <input type="submit" value="Submit" />
+      <!-- Add input elements for each parameter -->
+      <label for="dt">Date & Time:</label>
+      <input type="text" id="dt" name="dt" value="" /><br />
+
+      <label for="di">Distance:</label>
+      <input type="text" id="di" name="di" value="" /><br />
+
+      <label for="du">Duration:</label>
+      <input type="text" id="du" name="du" value="" /><br />
+
+      <label for="ef">Efficiency:</label>
+      <input type="text" id="ef" name="ef" value="" /><br />
+
+      <label for="ts">Timestamp:</label>
+      <input type="text" id="ts" name="ts" value="" /><br />
+
+      <label for="as">Average Speed:</label>
+      <input type="text" id="as" name="as" value="" /><br />
+
+      <label for="pr">Price:</label>
+      <input type="text" id="pr" name="pr" value="" /><br />
+
+      <label for="bu">Business Unit:</label>
+      <input type="text" id="bu" name="bu" value="" /><br />
     </form>
+
+    <script>
+      var queryString = window.location.search;
+      var urlParams = new URLSearchParams(queryString);
+      var jsonParam = urlParams.get('data');
+      var dictionary = JSON.parse(decodeURIComponent(jsonParam));
+
+      // Fill the input boxes with the values from the dictionary
+      document.getElementById('dt').value = dictionary.dt || '';
+      document.getElementById('di').value = dictionary.di || '';
+      document.getElementById('du').value = dictionary.du || '';
+      document.getElementById('ef').value = dictionary.ef || '';
+      document.getElementById('ts').value = dictionary.ts || '';
+      document.getElementById('as').value = dictionary.as || '';
+      document.getElementById('pr').value = dictionary.pr || '';
+      document.getElementById('bu').value = dictionary.bu || '';
+    </script>
   </body>
 </html>
