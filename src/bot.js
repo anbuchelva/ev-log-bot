@@ -31,8 +31,14 @@ function sendToTelegram(chatId, message, keyboard, messageId) {
     parse_mode: 'HTML',
   };
 
+  var keyboardRemoveMarkup = {
+    remove_keyboard: true,
+  };
+
   if (keyboard) {
     payload.reply_markup = JSON.stringify(keyboard);
+  } else {
+    payload.reply_markup = JSON.stringify(keyboardRemoveMarkup);
   }
 
   if (messageId) {
