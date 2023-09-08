@@ -171,8 +171,24 @@ function deleteEntry(chatId, messageId) {
   }
 }
 
-function editEntry(chatId, messageId) {
-  sendToTelegram(chatId, 'Choose a Parameter to edit or add Source and Destination of the trip:', parametersEdit, messageId);
+function editEntry(chatId, messageId, callbackText) {
+  resultArray = parseRideLogMsg(callbackText);
+  var logData = JSON.stringify(resultArray);
+  var parametersEdit = {
+    keyboard: [
+      [
+        {
+          text: '✏️ Edit',
+          web_app: { url: 'https://anbuchelva.in/ev-log-bot/edit?data=' + encodeURIComponent(logData) + '&cid=' + chatId + '&mid=' + messageId },
+        },
+        { text: '✖️ Cancel Edit' },
+      ],
+    ],
+    is_persistent: false,
+    resize_keyboard: true,
+    one_time_keyboard: true,
+  };
+  sendToTelegram(chatId, '⬇️ Click the edit button to edit the stats.', parametersEdit, messageId);
 }
 
 function sendApproval(firstName, chatId, username) {
@@ -288,4 +304,38 @@ function deleteImages(chatId) {
       Logger.log('Deleted file: ' + file.getName());
     }
   }
+}
+
+function parseRideLogMsg(text) {
+  const rideLog = {};
+
+  // Extract the date and time
+  const dateTimeRegex = /📆 (.+?)\n/;
+  const dateTimeMatch = text.match(dateTimeRegex);
+  const dateTime = dateTimeMatch ? dateTimeMatch[1] : null;
+
+  // Extract other values using regular expressions
+  const distanceRegex = /Distance: ([\d.]+) km/;
+  const durationRegex = /Duration: (\d+) mins/;
+  const efficiencyRegex = /Efficiency: ([\d.]+) Wh\/km/;
+  const topSpeedRegex = /Top Speed: ([\d.]+) km\/h/;
+  const avgSpeedRegex = /Avg Speed: ([\d.]+) km\/h/;
+  const projRangeRegex = /Proj Range: ([\d.]+) km/;
+
+  const distanceMatch = text.match(distanceRegex);
+  const durationMatch = text.match(durationRegex);
+  const efficiencyMatch = text.match(efficiencyRegex);
+  const topSpeedMatch = text.match(topSpeedRegex);
+  const avgSpeedMatch = text.match(avgSpeedRegex);
+  const projRangeMatch = text.match(projRangeRegex);
+
+  rideLog['dt'] = dateTime;
+  rideLog['di'] = distanceMatch ? parseFloat(distanceMatch[1]) : null;
+  rideLog['du'] = durationMatch ? parseInt(durationMatch[1]) : null;
+  rideLog['ef'] = efficiencyMatch ? parseFloat(efficiencyMatch[1]) : null;
+  rideLog['ts'] = topSpeedMatch ? parseFloat(topSpeedMatch[1]) : null;
+  rideLog['as'] = avgSpeedMatch ? parseFloat(avgSpeedMatch[1]) : null;
+  rideLog['pr'] = projRangeMatch ? parseFloat(projRangeMatch[1]) : null;
+
+  return rideLog;
 }

@@ -24,11 +24,17 @@ function doPost(request) {
           photo,
           message_id: messageId,
         } = message;
+      } else if (message.web_app_data !== undefined) {
+        var {
+          from: { id: userId, username: username },
+          chat: { id: chatId, first_name: firstName },
+          web_app_data: webAppData,
+        } = message;
       }
     } else if (callback_query !== undefined) {
       var {
         from: { id: chatId },
-        message: { message_id: messageId },
+        message: { message_id: messageId, text: callbackText },
         data,
       } = callback_query;
     }
@@ -40,9 +46,12 @@ function doPost(request) {
         if (photo !== undefined) {
           processPhoto(message, chatId, messageId);
         } else if (text !== undefined) {
-          processText(message, chatId);
+          processText(message, chatId, messageId);
+        } else if (webAppData !== undefined) {
+          logMessage(webAppData);
+          processWebAppData(chatId, webAppData);
         } else if (callback_query !== undefined) {
-          processCallback(data, chatId, messageId);
+          processCallback(data, chatId, messageId, callbackText);
         }
       } else {
         sendToTelegram(chatId, '❌ You must be part of the @ather_india group to use this bot.');
@@ -81,7 +90,7 @@ function doPost(request) {
 }
 
 // Function to process callbacks
-function processCallback(data, chatId, messageId) {
+function processCallback(data, chatId, messageId, callbackText) {
   if (data === 'distance_vs_range') {
     sendDistanceRange(chatId);
   } else if (data === 'distance_vs_efficiency') {
@@ -105,7 +114,7 @@ function processCallback(data, chatId, messageId) {
   } else if (data === 'delete_entry') {
     deleteEntry(chatId, messageId);
   } else if (data === 'edit_entry') {
-    editEntry(chatId, messageId);
+    editEntry(chatId, messageId, callbackText);
   } else if (data.split('_')[0] === 'registration') {
     var regApproval = data.split('_')[1];
     var regUser = data.split('_')[2];
@@ -130,7 +139,7 @@ function processCallback(data, chatId, messageId) {
 }
 
 // Function to process text messages
-function processText(message, chatId) {
+function processText(message, chatId, messageId) {
   if (message.text === '/start') {
     sendToTelegram(
       chatId,
@@ -146,6 +155,8 @@ function processText(message, chatId) {
     sendToTelegram(chatId, '👇 Pick a chart for daily ride stats 📅', chartsDailyKeyboard);
   } else if (message.text === '/monthly_charts') {
     sendToTelegram(chatId, '👇 Pick a chart for monthly ride stats 🗓️', chartsMonthlyKeyboard);
+  } else if (message.text === '✖️ Cancel Edit') {
+    sendToTelegram(chatId, 'Edit Cancelled', null, messageId);
     // } else if (message.text === '/help') {
     //   sendToTelegram(chatId, 'Get help from <a href="https://t.me/ather_india/113">Ather India Group</a>');
   } else {
@@ -236,4 +247,71 @@ function formatPercentage(percentage) {
 function revertChanges(row, driveFileId) {
   DATA.deleteRow(row);
   DriveApp.getFileById(driveFileId).setTrashed(true);
+}
+
+function processWebAppData(chatId, webAppData) {
+  if (webAppData) {
+    var data = JSON.parse(webAppData.data);
+    var dateTime = new Date(data['date_time']);
+    var distance = Number(data['distance']);
+    var duration = Number(data['duration']);
+    var efficiency = Number(data['efficiency']);
+    var top_speed = Number(data['top_speed']);
+    var range = Number(data['range']);
+    var avg_speed = Number(data['avg_speed']);
+    var source = data['source'];
+    var destination = data['destination'];
+    var messageId = Number(data['message_id']);
+    var chat_id = Number(data['chat_id']);
+    var locationData = '';
+
+    if (chat_id == chatId) {
+      var revisedData = [[dateTime, distance, duration, efficiency, top_speed, range, avg_speed]];
+      TEMP.getRange('G4:M4').setValues(revisedData);
+      if (source && destination) {
+        locationData = [[source, destination]];
+        TEMP.getRange('T4:U4').setValues(locationData);
+      }
+      var revisedDataAll = TEMP.getRange('G4:U4').getValues();
+      var lastRow = DATA.getLastRow();
+      values = DATA.getRange(2, 17, lastRow - 1, 1).getValues();
+      for (var i = values.length - 1; i >= 0; i--) {
+        if (values[i][0] === messageId) {
+          DATA.getRange(i, 2, 1, 15).setValues(revisedDataAll);
+          var formattedDateTime = formatDateTime(dateTime);
+          var formattedDrain = formatPercentage(distance / range);
+          var messageBody =
+            '✏️ Your edits are live\n' +
+            '\n📆 ' +
+            formattedDateTime +
+            '\nDistance: ' +
+            distance +
+            ' km' +
+            '\nDuration: ' +
+            duration +
+            ' mins' +
+            '\nEfficiency: ' +
+            efficiency +
+            ' Wh/km' +
+            '\nTop Speed: ' +
+            top_speed +
+            ' km/h' +
+            '\nAvg Speed: ' +
+            avg_speed +
+            ' km/h' +
+            '\nProj Range: ' +
+            range +
+            ' km' +
+            '\nBattery Usage: ' +
+            formattedDrain;
+          if (locationData) {
+            messageBody = messageBody + '\nSource: ' + source + '\nDestination: ' + destination;
+          }
+          sendToTelegram(chatId, messageBody, null, messageId);
+        }
+      }
+    }
+  } else {
+    sendToTelegram(chatId, 'Unable to process the edits!');
+  }
 }
