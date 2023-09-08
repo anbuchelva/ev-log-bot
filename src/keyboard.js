@@ -65,3 +65,24 @@ var deRegister = {
   ],
   resize_keyboard: true,
 };
+
+var parametersEdit = {
+  inline_keyboard: [
+    [
+      { text: 'Date & Time', callback_data: 'edit_date_time' },
+      { text: 'Distance', callback_data: 'edit_distance' },
+
+      { text: 'Duration', callback_data: 'edit_duration' },
+    ],
+    [
+      { text: 'Efficiency', callback_data: 'edit_efficiency' },
+      { text: 'Top Speed', callback_data: 'edit_top_speed' },
+      { text: 'Avg Speed', callback_data: 'edit_avg_speed' },
+    ],
+    [
+      { text: 'Proj. Range', callback_data: 'edit_range' },
+      { text: 'Source', callback_data: 'add_source' },
+      { text: 'Destination', callback_data: 'add_destination' },
+    ],
+  ],
+};
