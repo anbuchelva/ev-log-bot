@@ -237,8 +237,3 @@ function revertChanges(row, driveFileId) {
   DATA.deleteRow(row);
   DriveApp.getFileById(driveFileId).setTrashed(true);
 }
-
-function doGet(e) {
-  const message = 'Hello World! This feature is not live yet!';
-  return ContentService.createTextOutput(message);
-}
