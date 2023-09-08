@@ -34,5 +34,5 @@ function recordRuntime() {
 function runtimeCountStopPerRequst(start) {
   var stop = new Date();
   var runTime = Number(stop) - Number(start);
-  sendToTelegram(ADMIN_ID, '⏲️: ' + runTime / 1000 + ' seconds');
+  // sendToTelegram(ADMIN_ID, '⏲️: ' + runTime / 1000 + ' seconds');
 }
