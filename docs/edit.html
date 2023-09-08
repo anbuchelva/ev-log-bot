@@ -3,51 +3,162 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Ride Log</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Ruda:wght@400;800&display=swap" rel="stylesheet" />
+
+    <title>Edit_Ride_Log</title>
   </head>
   <body>
-    <form method="POST">
-      <!-- Add input elements for each parameter -->
-      <label for="dt">Date & Time:</label>
-      <input type="text" id="dt" name="dt" value="" /><br />
-
-      <label for="di">Distance:</label>
-      <input type="text" id="di" name="di" value="" /><br />
-
-      <label for="du">Duration:</label>
-      <input type="text" id="du" name="du" value="" /><br />
-
-      <label for="ef">Efficiency:</label>
-      <input type="text" id="ef" name="ef" value="" /><br />
-
-      <label for="ts">Timestamp:</label>
-      <input type="text" id="ts" name="ts" value="" /><br />
-
-      <label for="as">Average Speed:</label>
-      <input type="text" id="as" name="as" value="" /><br />
-
-      <label for="pr">Price:</label>
-      <input type="text" id="pr" name="pr" value="" /><br />
-
-      <label for="bu">Business Unit:</label>
-      <input type="text" id="bu" name="bu" value="" /><br />
-    </form>
-
+    <div class="container-fluid">
+      <div class="h1">Edit your Ride</div>
+      <form method="POST" id="edit-ride-log">
+        <!-- Add input elements for each parameter -->
+        <div class="row g-3 align-items-center">
+          <div class="col-5">
+            <label for="dt">Date & Time</label>
+          </div>
+          <div class="col-7">
+            <input type="datetime-local" id="dt" name="dt" value="" class="form-control" style="text-align: right" required />
+          </div>
+          <div class="col-5">
+            <label for="di">Distance</label>
+          </div>
+          <div class="col-5">
+            <input type="text" id="di" name="di" value="" class="form-control" style="text-align: right" required />
+          </div>
+          <div class="col-2">
+            <label>Km</label>
+          </div>
+          <div class="col-5">
+            <label for="du">Duration</label>
+          </div>
+          <div class="col-5">
+            <input type="text" id="du" name="du" value="" class="form-control" style="text-align: right" required />
+          </div>
+          <div class="col-2">
+            <label>mins</label>
+          </div>
+          <div class="col-5">
+            <label for="ef">Efficiency</label>
+          </div>
+          <div class="col-5">
+            <input type="text" id="ef" name="ef" value="" class="form-control" style="text-align: right" required />
+          </div>
+          <div class="col-2">
+            <label>Wh/km</label>
+          </div>
+          <div class="col-5">
+            <label for="ts">Top Speed</label>
+          </div>
+          <div class="col-5">
+            <input type="text" id="ts" name="ts" value="" class="form-control" style="text-align: right" required />
+          </div>
+          <div class="col-2">
+            <label>Km/h</label>
+          </div>
+          <div class="col-5">
+            <label for="as">Average Speed</label>
+          </div>
+          <div class="col-5">
+            <input type="text" id="as" name="as" value="" class="form-control" style="text-align: right" required />
+          </div>
+          <div class="col-2">
+            <label>Km/h</label>
+          </div>
+          <div class="col-5">
+            <label for="pr">Projected Range</label>
+          </div>
+          <div class="col-5">
+            <input type="text" id="pr" name="pr" value="" class="form-control" style="text-align: right" required />
+          </div>
+          <div class="col-2">
+            <label>Km</label>
+          </div>
+          <div class="col-5">
+            <label for="sr">Source</label>
+          </div>
+          <div class="col-7">
+            <input type="text" id="sr" name="sr" value="" class="form-control" placeholder="Ride started place" />
+          </div>
+          <div class="col-5">
+            <label for="de">Destinaton</label>
+          </div>
+          <div class="col-7">
+            <input type="text" id="de" name="de" value="" class="form-control" placeholder="Ride ended place" />
+          </div>
+          <input type="text" id="cid" name="cid" class="visually-hidden" />
+          <input type="text" id="mid" name="mid" class="visually-hidden" />
+          <div class="alert-danger visually-hidden" id="alert">Please fill the mandatory fields.</div>
+        </div>
+      </form>
+    </div>
     <script>
+      var title = document.title;
       var queryString = window.location.search;
       var urlParams = new URLSearchParams(queryString);
       var jsonParam = urlParams.get('data');
       var dictionary = JSON.parse(decodeURIComponent(jsonParam));
+      var cidValue = urlParams.get('cid');
+      var midValue = urlParams.get('mid');
 
-      // Fill the input boxes with the values from the dictionary
-      document.getElementById('dt').value = dictionary.dt || '';
+      function formatDate() {
+        var dateTimeString = dictionary.dt || '';
+        var dateObj = new Date(dateTimeString);
+        if (!isNaN(dateObj)) {
+          dateObj.setHours(dateObj.getHours() + 5); // Add 5 hours for IST zone
+          dateObj.setMinutes(dateObj.getMinutes() + 30); // Add 30 minutes for IST zone
+          var isoString = dateObj.toISOString();
+          var isoFormatted = isoString.slice(0, 16);
+        }
+        return isoFormatted;
+      }
+
+      document.getElementById('dt').value = formatDate();
       document.getElementById('di').value = dictionary.di || '';
       document.getElementById('du').value = dictionary.du || '';
       document.getElementById('ef').value = dictionary.ef || '';
       document.getElementById('ts').value = dictionary.ts || '';
       document.getElementById('as').value = dictionary.as || '';
       document.getElementById('pr').value = dictionary.pr || '';
-      document.getElementById('bu').value = dictionary.bu || '';
+      document.getElementById('cid').value = cidValue;
+      document.getElementById('mid').value = midValue;
+
+      var duInput = document.getElementById('du');
+      var diInput = document.getElementById('di');
+      var asInput = document.getElementById('as');
+
+      duInput.addEventListener('input', updateAverageSpeed);
+      diInput.addEventListener('input', updateAverageSpeed);
+
+      function updateAverageSpeed() {
+        var duValue = parseFloat(duInput.value);
+        var diValue = parseFloat(diInput.value);
+
+        if (!isNaN(duValue) && !isNaN(diValue) && duValue !== 0) {
+          var asValue = (diValue / duValue).toFixed(2);
+          asInput.value = asValue;
+        } else {
+          asInput.value = '';
+        }
+      }
+      updateAverageSpeed();
+
+      Telegram.WebApp.ready();
+      Telegram.WebApp.expand();
+      Telegram.WebApp.MainButton.setText('SUBMIT EDITS');
+      Telegram.WebApp.MainButton.show();
     </script>
+    <script src="js/script.js"></script>
   </body>
 </html>
