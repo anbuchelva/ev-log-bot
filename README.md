@@ -2,7 +2,7 @@
 
 bot link: https://t.me/ev_log_bot
 
-1. A sample google sheet is available in this path: https://docs.google.com/spreadsheets/d/1G_6aki-Y9Vw0b8Msaq-M7JKs4wHtWCURYhx6Yb8Clho
+1. A sample google sheet is available in this path: https://docs.google.com/spreadsheets/d/1dfx_kQSugj3TurJ-jAW5AT2xBzuTVgf6ZCAurRYmihU (version 3)
 2. Instructions to setup the bot is given here: https://blog.anbuchelva.in/blog/collect-ather-logs-to-google-sheets/
 3. There are few changes compared to the above instructions, especially on the **Script Properties**
 
