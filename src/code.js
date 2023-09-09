@@ -271,15 +271,17 @@ function processWebAppData(chatId, webAppData) {
       if (source && destination) {
         locationData = [[source, destination]];
         TEMP.getRange('T4:U4').setValues(locationData);
+      } else {
+        TEMP.getRange('T4:U4').clearContent();
       }
       var revisedDataAll = TEMP.getRange('G4:U4').getValues();
       var lastRow = DATA.getLastRow();
-      values = DATA.getRange(2, 17, lastRow - 1, 1).getValues();
+      values = DATA.getRange(1, 17, lastRow, 1).getValues();
       for (var i = values.length - 1; i >= 0; i--) {
         if (values[i][0] === messageId) {
-          DATA.getRange(i, 2, 1, 15).setValues(revisedDataAll);
+          DATA.getRange(i + 1, 2, 1, 15).setValues(revisedDataAll);
           var formattedDateTime = formatDateTime(dateTime);
-          var formattedDrain = formatPercentage((distance / range) * 60);
+          var formattedDrain = formatPercentage(distance / range);
           var messageBody =
             '✏️ Your edits are live\n' +
             '\n📆 ' +
