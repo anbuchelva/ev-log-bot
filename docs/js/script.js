@@ -21,12 +21,11 @@ function validateForm(formName) {
 }
 
 Telegram.WebApp.MainButton.onClick(() => {
-  console.log(title);
+  // console.log(title);
   if (title == 'Edit_Ride_Log') {
     var validationStatus = validateForm('edit-ride-log');
     if (validationStatus) {
       var rideLogDataEdited = {
-        form: title,
         date_time: dt.value,
         distance: di.value,
         duration: du.value,
