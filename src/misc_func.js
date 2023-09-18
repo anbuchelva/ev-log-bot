@@ -224,15 +224,17 @@ function sendApproval(firstName, chatId, username) {
 
 function updateUserApproval(chatId, newStatus) {
   var allUsers = USERS.getDataRange().getValues();
+  var userNotRegistered = true;
   for (var i = 1; i < allUsers.length; i++) {
-    Logger.log(allUsers[i]);
     if (allUsers[i][1] == chatId) {
+      userNotRegistered = false;
       data = [[new Date(), chatId, newStatus]];
       USERS.getRange(i + 1, 1, 1, 3).setValues(data);
       USERS.getRange(2, 1, allUsers.length - 1, 3).sort({ column: 1, ascending: true });
-    } else {
-      sendToTelegram(ADMIN_ID, chatId + ' has not registered yet.');
     }
+  }
+  if (userNotRegistered) {
+    sendToTelegram(ADMIN_ID, chatId + ' has not registered yet.');
   }
 }
 
