@@ -140,11 +140,12 @@
 
       duInput.addEventListener('input', updateAverageSpeed);
       diInput.addEventListener('input', updateAverageSpeed);
+      diInput.addEventListener('input', updateDuration);
+      asInput.addEventListener('input', updateDuration);
 
       function updateAverageSpeed() {
         var duValue = parseFloat(duInput.value);
         var diValue = parseFloat(diInput.value);
-
         if (!isNaN(duValue) && !isNaN(diValue) && duValue !== 0) {
           var asValue = ((diValue / duValue) * 60).toFixed(2);
           asInput.value = asValue;
@@ -152,7 +153,18 @@
           asInput.value = '';
         }
       }
+      function updateDuration() {
+        var diValue = parseFloat(diInput.value);
+        var asValue = parseFloat(asInput.value);
+        if (!isNaN(asValue) && !isNaN(diValue) && asValue !== 0) {
+          var duValue = ((diValue / asValue) * 60).toFixed(2);
+          duInput.value = duValue;
+        } else {
+          duInput.value = '';
+        }
+      }
       updateAverageSpeed();
+      updateDuration();
 
       Telegram.WebApp.ready();
       Telegram.WebApp.expand();
