@@ -155,7 +155,7 @@ function sendTopAverageSpeedDay(chatId) {
 
 function sendTopAverageSpeedMon(chatId) {
   if (updateActiveUser(chatId)) {
-    var chart = TOP_AVG_SPEED_MON.getCharts()[0];
+    var chart = TOP_AVG_SPEED_MONTH.getCharts()[0];
     var imageBlob = chartToImage(chart);
     sendPhotoToTelegram(chatId, imageBlob, 'Top speed vs. Average Speed - Monthly');
     updateLockToFalse();
