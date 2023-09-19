@@ -12,6 +12,20 @@ var chartsDailyKeyboard = {
   ],
 };
 
+var chartsWeeklyKeyboard = {
+  inline_keyboard: [
+    [
+      { text: '↔️ 🆚 ➡️ ', callback_data: 'distance_vs_range_wk' },
+      { text: '↔️ 🆚 🎯', callback_data: 'distance_vs_efficiency_wk' },
+      { text: '↔️ 🆚 🔋', callback_data: 'distance_vs_battery_km_wk' },
+    ],
+    [
+      { text: '🪫 / 🗓️', callback_data: 'battery_per_wk' },
+      { text: '🚀 🆚 🛵', callback_data: 'top_vs_avg_speed_wk' },
+    ],
+  ],
+};
+
 var chartsMonthlyKeyboard = {
   inline_keyboard: [
     [

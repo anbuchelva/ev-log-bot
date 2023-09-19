@@ -162,6 +162,51 @@ function sendTopAverageSpeedMon(chatId) {
   }
 }
 
+function sendDistanceRangeWk(chatId) {
+  if (updateActiveUser(chatId)) {
+    var chart = DISTANCE_RANGE_WK.getCharts()[0];
+    var imageBlob = chartToImage(chart);
+    sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Range - Weekly');
+    updateLockToFalse();
+  }
+}
+
+function sendDistanceEfficiencyWk(chatId) {
+  if (updateActiveUser(chatId)) {
+    var chart = DISTANCE_EFFICIENCY_WK.getCharts()[0];
+    var imageBlob = chartToImage(chart);
+    sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Efficiency - Weekly');
+    updateLockToFalse();
+  }
+}
+
+function sendDistanceBatteryKmWk(chatId) {
+  if (updateActiveUser(chatId)) {
+    var chart = DISTANCE_BATTERY_WK.getCharts()[0];
+    var imageBlob = chartToImage(chart);
+    sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Battery % / Km - Weekly');
+    updateLockToFalse();
+  }
+}
+
+function sendBatteryUsagePerWk(chatId) {
+  if (updateActiveUser(chatId)) {
+    var chart = BATTERY_WK.getCharts()[0];
+    var imageBlob = chartToImage(chart);
+    sendPhotoToTelegram(chatId, imageBlob, 'Battery Usage per Week');
+    updateLockToFalse();
+  }
+}
+
+function sendTopAverageSpeedWk(chatId) {
+  if (updateActiveUser(chatId)) {
+    var chart = TOP_AVG_SPEED_WK.getCharts()[0];
+    var imageBlob = chartToImage(chart);
+    sendPhotoToTelegram(chatId, imageBlob, 'Top speed vs. Average Speed - Weekly');
+    updateLockToFalse();
+  }
+}
+
 function deleteEntry(chatId, messageId) {
   var lastRow = DATA.getLastRow();
   if (lastRow > 50) {

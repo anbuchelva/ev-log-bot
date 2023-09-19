@@ -111,6 +111,16 @@ function processCallback(data, chatId, messageId, callbackText) {
     sendBatteryUsagePerMon(chatId);
   } else if (data === 'top_vs_avg_speed_mon') {
     sendTopAverageSpeedMon(chatId);
+  } else if (data === 'distance_vs_range_wk') {
+    sendDistanceRangeWk(chatId);
+  } else if (data === 'distance_vs_efficiency_wk') {
+    sendDistanceEfficiencyWk(chatId);
+  } else if (data === 'distance_vs_battery_km_wk') {
+    sendDistanceBatteryKmWk(chatId);
+  } else if (data === 'battery_per_wk') {
+    sendBatteryUsagePerWk(chatId);
+  } else if (data === 'top_vs_avg_speed_wk') {
+    sendTopAverageSpeedWk(chatId);
   } else if (data === 'delete_entry') {
     deleteEntry(chatId, messageId);
   } else if (data === 'edit_entry') {
@@ -153,6 +163,8 @@ function processText(message, chatId, messageId) {
     //   sendToTelegram(chatId, 'This will delete all the data stored against your telegram id ' + chatId + '.\n\nDo you want to continue?', deleteDataKeyboard);
   } else if (message.text === '/daily_charts') {
     sendToTelegram(chatId, '👇 Pick a chart for daily ride stats 📅', chartsDailyKeyboard);
+  } else if (message.text === '/weekly_charts') {
+    sendToTelegram(chatId, '👇 Pick a chart for weekly ride stats 📅', chartsWeeklyKeyboard);
   } else if (message.text === '/monthly_charts') {
     sendToTelegram(chatId, '👇 Pick a chart for monthly ride stats 🗓️', chartsMonthlyKeyboard);
   } else if (message.text === '✖️ Cancel Edit') {
