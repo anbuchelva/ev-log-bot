@@ -99,6 +99,8 @@ function processCallback(data, chatId, messageId, callbackText) {
     sendDistanceBatteryKm(chatId);
   } else if (data === 'battery_per_day') {
     sendBatteryUsagePerDay(chatId);
+  } else if (data === 'top_vs_avg_speed') {
+    sendTopAverageSpeedDay(chatId);
   } else if (data === 'distance_vs_range_mon') {
     sendDistanceRangeMon(chatId);
   } else if (data === 'distance_vs_efficiency_mon') {
@@ -107,8 +109,6 @@ function processCallback(data, chatId, messageId, callbackText) {
     sendDistanceBatteryKmMon(chatId);
   } else if (data === 'battery_per_mon') {
     sendBatteryUsagePerMon(chatId);
-  } else if (data === 'top_vs_avg_speed') {
-    sendTopAverageSpeedDay(chatId);
   } else if (data === 'top_vs_avg_speed_mon') {
     sendTopAverageSpeedMon(chatId);
   } else if (data === 'delete_entry') {

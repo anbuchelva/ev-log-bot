@@ -81,29 +81,11 @@ function sendDistanceRange(chatId) {
   }
 }
 
-function sendDistanceRangeMon(chatId) {
-  if (updateActiveUser(chatId)) {
-    var chart = DISTANCE_RANGE_MONTH.getCharts()[0];
-    var imageBlob = chartToImage(chart);
-    sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Range - Monthly');
-    updateLockToFalse();
-  }
-}
-
 function sendDistanceEfficiency(chatId) {
   if (updateActiveUser(chatId)) {
     var chart = DISTANCE_EFFICIENCY.getCharts()[0];
     var imageBlob = chartToImage(chart);
     sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Efficiency - Daily');
-    updateLockToFalse();
-  }
-}
-
-function sendDistanceEfficiencyMon(chatId) {
-  if (updateActiveUser(chatId)) {
-    var chart = DISTANCE_EFFICIENCY_MONTH.getCharts()[0];
-    var imageBlob = chartToImage(chart);
-    sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Efficiency - Monthly');
     updateLockToFalse();
   }
 }
@@ -117,15 +99,6 @@ function sendDistanceBatteryKm(chatId) {
   }
 }
 
-function sendDistanceBatteryKmMon(chatId) {
-  if (updateActiveUser(chatId)) {
-    var chart = DISTANCE_BATTERY_MONTH.getCharts()[0];
-    var imageBlob = chartToImage(chart);
-    sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Battery % / Km - Monthly');
-    updateLockToFalse();
-  }
-}
-
 function sendBatteryUsagePerDay(chatId) {
   if (updateActiveUser(chatId)) {
     var chart = BATTERY.getCharts()[0];
@@ -135,20 +108,47 @@ function sendBatteryUsagePerDay(chatId) {
   }
 }
 
-function sendBatteryUsagePerMon(chatId) {
-  if (updateActiveUser(chatId)) {
-    var chart = BATTERY_MONTH.getCharts()[0];
-    var imageBlob = chartToImage(chart);
-    sendPhotoToTelegram(chatId, imageBlob, 'Battery Usage per Month');
-    updateLockToFalse();
-  }
-}
-
 function sendTopAverageSpeedDay(chatId) {
   if (updateActiveUser(chatId)) {
     var chart = TOP_AVG_SPEED.getCharts()[0];
     var imageBlob = chartToImage(chart);
     sendPhotoToTelegram(chatId, imageBlob, 'Top speed vs. Average Speed - Daily');
+    updateLockToFalse();
+  }
+}
+
+function sendDistanceRangeMon(chatId) {
+  if (updateActiveUser(chatId)) {
+    var chart = DISTANCE_RANGE_MONTH.getCharts()[0];
+    var imageBlob = chartToImage(chart);
+    sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Range - Monthly');
+    updateLockToFalse();
+  }
+}
+
+function sendDistanceEfficiencyMon(chatId) {
+  if (updateActiveUser(chatId)) {
+    var chart = DISTANCE_EFFICIENCY_MONTH.getCharts()[0];
+    var imageBlob = chartToImage(chart);
+    sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Efficiency - Monthly');
+    updateLockToFalse();
+  }
+}
+
+function sendDistanceBatteryKmMon(chatId) {
+  if (updateActiveUser(chatId)) {
+    var chart = DISTANCE_BATTERY_MONTH.getCharts()[0];
+    var imageBlob = chartToImage(chart);
+    sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Battery % / Km - Monthly');
+    updateLockToFalse();
+  }
+}
+
+function sendBatteryUsagePerMon(chatId) {
+  if (updateActiveUser(chatId)) {
+    var chart = BATTERY_MONTH.getCharts()[0];
+    var imageBlob = chartToImage(chart);
+    sendPhotoToTelegram(chatId, imageBlob, 'Battery Usage per Month');
     updateLockToFalse();
   }
 }
