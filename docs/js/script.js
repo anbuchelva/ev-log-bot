@@ -40,5 +40,21 @@ Telegram.WebApp.MainButton.onClick(() => {
       };
       Telegram.WebApp.sendData(JSON.stringify(rideLogDataEdited));
     }
+  } else if (title == 'Add_Ride_Log') {
+    var validationStatus = validateForm('add-ride-log');
+    if (validationStatus) {
+      var rideLogDataNew = {
+        date_time: dt.value,
+        distance: di.value,
+        duration: du.value,
+        efficiency: ef.value,
+        top_speed: ts.value,
+        avg_speed: as.value,
+        range: pr.value,
+        source: sr.value,
+        destination: de.value,
+      };
+      Telegram.WebApp.sendData(JSON.stringify(rideLogDataNew));
+    }
   }
 });
