@@ -1,5 +1,5 @@
 function getDataFromApi(limitVal, telegramAlert) {
-  if (AUTO_TRIGGER == 'true' || AUTO_TRIGGER == 'TRUE') {
+  if (AUTO_TRIGGER.toLowerCase() === 'true') {
     var url =
       'https://cerberus.ather.io/api/v1/triplogs?scooter=' +
       VIN +
