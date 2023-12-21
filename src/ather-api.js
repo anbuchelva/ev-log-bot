@@ -33,6 +33,9 @@ function getDataFromApi(limitVal, telegramAlert) {
     } else {
       Logger.log('Request failed with status code ' + statusCode);
       Logger.log(response.getContentText());
+      if (telegramAlert) {
+        sendToTelegram(ADMIN, 'Request failed with status code ' + statusCode);
+      }
     }
   }
 }
@@ -131,6 +134,7 @@ function insertDataIntoSheet(data, telegramAlert) {
       // Misc
       var scooter_state = tripData.scooter_state;
       var status = details.status;
+      var ride_crumbs = details.ride_crumbs;
 
       // Extract and store the children of top_speed_vs_distance in separate columns
       // var top_speed_vs_distance = details.top_speed_vs_distance;
@@ -228,6 +232,7 @@ function insertDataIntoSheet(data, telegramAlert) {
         warp_mode_duration_pct,
         scooter_state,
         status,
+        ride_crumbs,
         // sampling_frequency_in_kms,
         // top_speed_vs_distance_values,
       ]);
@@ -302,6 +307,9 @@ function insertDataIntoSheet(data, telegramAlert) {
           '\nHorn Count: ' +
           hornData +
           modeData +
+          '\nRide Path: <a href="https://anbuchelva.in/ev-log-bot/map?coordinates=' +
+          ride_crumbs +
+          '">Open map</a>' +
           '\n\nID:  <code>' +
           id +
           '</code>';
