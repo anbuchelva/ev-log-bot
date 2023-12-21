@@ -68,7 +68,9 @@
             latlngs.push([lat * 1e-5, lng * 1e-5]);
           }
 
-          latlngs = latlngs.map((coord) => [parseFloat(coord[0].toFixed(5)), parseFloat(coord[1].toFixed(5))]);
+          latlngs = latlngs.map(function (coord) {
+            return [parseFloat(coord[0].toFixed(5)), parseFloat(coord[1].toFixed(5))];
+          });
 
           return latlngs;
         } catch (error) {
@@ -120,6 +122,12 @@
           stroke: true,
           weight: 3,
         }).addTo(ride_map);
+
+        // Add markers for starting and ending positions
+        var startMarker = L.marker(decodedCoordinates[0], { icon: L.divIcon({ className: 'start-marker', html: '🟢' }) }).addTo(ride_map);
+        var endMarker = L.marker(decodedCoordinates[decodedCoordinates.length - 1], { icon: L.divIcon({ className: 'end-marker', html: '🟥' }) }).addTo(
+          ride_map
+        );
       }
     </script>
   </body>
