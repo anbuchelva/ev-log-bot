@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #ride_map {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        left: 0%;
+        top: 0%;
+      }
+
+      .leaflet-container {
+        font-size: 1rem;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css" />
+  </head>
+  <body>
+    <div class="folium-map" id="ride_map"></div>
+
+    <script>
+      function decodePolylineString(encoded) {
+        try {
+          var len = encoded.length;
+          var index = 0;
+          var latlngs = [];
+          var lat = 0;
+          var lng = 0;
+
+          while (index < len) {
+            var b;
+            var shift = 0;
+            var result = 0;
+
+            do {
+              b = encoded.charCodeAt(index++) - 63;
+              result |= (b & 0x1f) << shift;
+              shift += 5;
+            } while (b >= 0x20);
+
+            var dlat = (result & 1) !== 0 ? ~(result >> 1) : result >> 1;
+            lat += dlat;
+
+            shift = 0;
+            result = 0;
+
+            do {
+              b = encoded.charCodeAt(index++) - 63;
+              result |= (b & 0x1f) << shift;
+              shift += 5;
+            } while (b >= 0x20);
+
+            var dlng = (result & 1) !== 0 ? ~(result >> 1) : result >> 1;
+            lng += dlng;
+
+            latlngs.push([lat * 1e-5, lng * 1e-5]);
+          }
+
+          latlngs = latlngs.map((coord) => [parseFloat(coord[0].toFixed(5)), parseFloat(coord[1].toFixed(5))]);
+
+          return latlngs;
+        } catch (error) {
+          console.error('Error decoding polyline:', error);
+          return null;
+        }
+      }
+
+      var urlParams = new URLSearchParams(window.location.search);
+      var encodedCoordinates = urlParams.get('coordinates');
+      var decodedCoordinates = decodePolylineString(encodedCoordinates);
+
+      if (!decodedCoordinates) {
+        document.body.innerHTML = '<h1>Error decoding polyline. Please check the input.</h1>';
+      } else {
+        var middleIndex = Math.floor(decodedCoordinates.length / 2);
+
+        var ride_map = L.map('ride_map', {
+          center: decodedCoordinates[middleIndex],
+          zoom: 14,
+          zoomControl: true,
+          preferCanvas: false,
+        });
+
+        var tile_layer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          detectRetina: false,
+          maxNativeZoom: 19,
+          maxZoom: 19,
+          minZoom: 0,
+          noWrap: false,
+          opacity: 1,
+          tms: false,
+        }).addTo(ride_map);
+
+        var poly_line = L.polyline(decodedCoordinates, {
+          bubblingMouseEvents: true,
+          color: 'blue',
+          dashArray: null,
+          dashOffset: null,
+          fill: false,
+          fillColor: 'blue',
+          fillOpacity: 0.2,
+          fillRule: 'evenodd',
+          lineCap: 'round',
+          lineJoin: 'round',
+          noClip: false,
+          opacity: 1.0,
+          smoothFactor: 1.0,
+          stroke: true,
+          weight: 3,
+        }).addTo(ride_map);
+      }
+    </script>
+  </body>
+</html>
