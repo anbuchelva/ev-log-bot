@@ -87,10 +87,11 @@
         document.body.innerHTML = '<h1>Error decoding polyline. Please check the input.</h1>';
       } else {
         var middleIndex = Math.floor(decodedCoordinates.length / 2);
+        var zoomLevel = Math.log2(1 / decodedCoordinates.length) + 19;
 
         var ride_map = L.map('ride_map', {
           center: decodedCoordinates[middleIndex],
-          zoom: 14,
+          zoom: zoomLevel,
           zoomControl: true,
           preferCanvas: false,
         });
