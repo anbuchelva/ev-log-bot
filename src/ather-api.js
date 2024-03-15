@@ -22,19 +22,26 @@ function getDataFromApi(limitVal, telegramAlert) {
       headers: headers,
     };
 
-    // Make the HTTP request
-    var response = UrlFetchApp.fetch(url, options);
-    var statusCode = response.getResponseCode();
+    try {
+      // Make the HTTP request
+      var response = UrlFetchApp.fetch(url, options);
+      var statusCode = response.getResponseCode();
 
-    if (statusCode === 200) {
-      var data = JSON.parse(response.getContentText());
-      // Logger.log(data);
-      insertDataIntoSheet(data, telegramAlert);
-    } else {
-      Logger.log('Request failed with status code ' + statusCode);
-      Logger.log(response.getContentText());
-      if (telegramAlert) {
+      if (statusCode === 200) {
+        var data = JSON.parse(response.getContentText());
+        insertDataIntoSheet(data, telegramAlert);
+      } else {
+        Logger.log('Request failed with status code ' + statusCode);
         sendToTelegram(ADMIN, 'Request failed with status code ' + statusCode);
+        Logger.log(response.getContentText());
+      }
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('403') && telegramAlert) {
+        Logger.log('Access Forbidden (403 Error): Ather disabled this operation.')
+        sendToTelegram(ADMIN, '❌ Access Forbidden (403 Error): Ather disabled this operation.');
+      } else {
+        Logger.log('Error in getDataFromApi:', error);
+        sendToTelegram(ADMIN, '❌ Error in getDataFromApi: ' + error.message);
       }
     }
   }
