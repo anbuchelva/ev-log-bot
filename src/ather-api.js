@@ -141,7 +141,12 @@ function insertDataIntoSheet(data, telegramAlert) {
       // Misc
       var scooter_state = tripData.scooter_state;
       var status = details.status;
-      var ride_crumbs = details.ride_crumbs;
+      // var ride_crumbs = details.ride_crumbs;
+      var polyline = details.polyline_with_speed;
+      var ride_crumbs = polyline.ply;
+      var spd = polyline.spd;
+      var speedString = JSON.stringify(spd);
+      var speedBase64String = Utilities.base64Encode(speedString);
 
       // Extract and store the children of top_speed_vs_distance in separate columns
       // var top_speed_vs_distance = details.top_speed_vs_distance;
@@ -314,9 +319,7 @@ function insertDataIntoSheet(data, telegramAlert) {
           '\nHorn Count: ' +
           hornData +
           modeData +
-          '\nRide Path: <a href="https://anbuchelva.in/ev-log-bot/map?coordinates=' +
-          ride_crumbs +
-          '">Open map</a>' +
+          '\nRide Path: <a href="https://anbuchelva.github.io/ev-log-bot/map?coordinates=' + ride_crumbs + '&speed=' + speedBase64String + '">Open map</a>' +
           '\n\nID:  <code>' +
           id +
           '</code>';
