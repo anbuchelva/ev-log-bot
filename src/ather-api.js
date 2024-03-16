@@ -3,9 +3,7 @@ function getDataFromApi(limitVal, telegramAlert) {
     var url =
       'https://cerberus.ather.io/api/v1/triplogs?scooter=' +
       VIN +
-      '&limit=' +
-      limitVal +
-      '&select=distance_m%2Cefficiency_whpkm%2Ctime_s%2Cstart_loc_text%2Cend_loc_text%2Cend_time_tz%2Cmax_display_speed_kmph%2Cstart_time_tz%2Cexpected_range_kms%2Cdetails%2Cexternal_charge_consumed_kwh%2Cend_loc_long%2Cend_loc_lat%2Csaving_tracker%2Cstart_loc_long%2Cstart_loc_lat%2Cmoving_trip_duration_s%2Ccoasting_distance_m%2Cinternal_charge_consumed_kwh%2Cbraking_distance_m%2Cmini_sessions%2Cscooter_state%2CupdatedAt%2CcreatedAt&sort=start_time_tz%20desc&populate=false&is_deleted=false';
+      '&limit=' + limitVal + '&select=distance_m%2Cefficiency_whpkm%2Ctime_s%2Cstart_loc_text%2Cend_loc_text%2Cend_time_tz%2Cmax_display_speed_kmph%2Cstart_time_tz%2Cexpected_range_kms%2Cdetails%2Cexternal_charge_consumed_kwh%2Cend_loc_long%2Cend_loc_lat%2Csaving_tracker%2Cstart_loc_long%2Cstart_loc_lat%2Cmoving_trip_duration_s%2Ccoasting_distance_m%2Cinternal_charge_consumed_kwh%2Cbraking_distance_m%2Cmini_sessions%2Cscooter_state%2CupdatedAt%2CcreatedAt&sort=start_time_tz%20desc&populate=false&is_deleted=false';
 
     // Set the headers
     var headers = {
@@ -422,17 +420,23 @@ function testApiTrigger() {
     headers: headers,
   };
 
-  // Make the HTTP request
-  var response = UrlFetchApp.fetch(url, options);
-  var statusCode = response.getResponseCode();
+  try {
+    // Make the HTTP request
+    var response = UrlFetchApp.fetch(url, options);
+    var statusCode = response.getResponseCode();
 
-  if (statusCode === 200) {
-    var data = JSON.parse(response.getContentText());
-    Logger.log(data);
-    // insertDataIntoSheet(data);
-  } else {
-    Logger.log('Request failed with status code ' + statusCode);
-    Logger.log(response.getContentText());
+    if (statusCode === 200) {
+      var data = JSON.parse(response.getContentText());
+      Logger.log(data);
+      // insertDataIntoSheet(data);
+    } else {
+      Logger.log('Request failed with status code ' + statusCode);
+      Logger.log(response.getContentText());
+    }
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('403')) {
+      Logger.log('Access Forbidden (403 Error): Ather disabled this operation.');
+    }
   }
 }
 
