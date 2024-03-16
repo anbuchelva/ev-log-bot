@@ -171,12 +171,22 @@ function insertDataIntoSheet(data, telegramAlert) {
       var yearValue = extractDate(end_time_ist).year;
       var monthValue = extractDate(end_time_ist).month;
       var dateValue = extractDate(end_time_ist).date;
+      // if ather api doesn't bring any output
       if (!end_loc_text) {
         end_loc_text = getLocationName(end_loc_lat, end_loc_long);
+        // if bing maps doesn't bring any output
+        if (!end_loc_text) {
+          end_loc_text = 'End Location';
+        }
       }
       // Utilities.sleep(1000);
+      // if ather api doesn't bring any output
       if (!start_loc_text) {
         start_loc_text = getLocationName(start_loc_lat, start_loc_long);
+        if (!start_loc_text) {
+          // if bing maps doesn't bring any output
+          start_loc_text = 'Start Location';
+        }
       }
 
       // Insert the data into the sheet
