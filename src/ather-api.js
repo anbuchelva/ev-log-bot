@@ -212,7 +212,7 @@ function insertDataIntoSheet(data, telegramAlert) {
         horn_count,
         saving_tracker,
         energy_consumed_wh,
-        energy_consumed_wh / 3240,
+        energy_consumed_wh / SOC_CAPACITY,
         external_charge_consumed_kwh,
         internal_charge_consumed_kwh,
         predictedrange_eco,
@@ -300,7 +300,7 @@ function insertDataIntoSheet(data, telegramAlert) {
           '\n\nDuration: ' + Math.floor(time_s / 60) + ' mins' +
           '\nRange: ' + (expected_range_kms).toFixed(1) + ' Km' +
           '\nEfficiency: ' + (efficiency_whpkm).toFixed(1) + ' Wh/km' +
-          '\nSOC: ' + (energy_consumed_wh / 3240 * 100).toFixed(2) + '%' +
+          '\nSOC: ' + (energy_consumed_wh / SOC_CAPACITY * 100).toFixed(2) + '%' +
           '\nFuel Savings: ₹' + (saving_tracker).toFixed(2) +
           '\nHorn Count: ' + hornData + modeData +
 
