@@ -17,6 +17,7 @@ const DATA = GSHEETS.getSheetByName('data');
 const SUMMARY = GSHEETS.getSheetByName('summary');
 const BEST_MODE = GSHEETS.getSheetByName('BM');
 const LOG = GSHEETS.getSheetByName('logs');
+const OPTIONS = GSHEETS.getSheetByName('options');
 const TRIP_SPEED = GSHEETS.getSheetByName('TS');
 
 

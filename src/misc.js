@@ -19,3 +19,20 @@ function triggerApiManually() {
         .at(futureTime)
         .create();
 }
+
+// Function to update script properties automatically.
+function updatedScriptProperties() {
+    var userInputs = OPTIONS.getRange('A2:B9').getValues();
+    userInputs.push(['AUTO_TRIGGER', 'TRUE']);
+    for (var i = 0; i < userInputs.length; i++) {
+        var key = userInputs[i][0];
+        var value = String(userInputs[i][1]);
+
+        if (value === null || value === '') {
+            throw new Error('Please fill in all the cells in the range B2:B9');
+        } else {
+            PropertiesService.getScriptProperties().setProperty(key, value);
+        }
+    }
+    logMessage('Script Properties are updated!');
+}
