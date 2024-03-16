@@ -216,3 +216,9 @@ function sendSummaryWk(chatId) {
   var imageBlob = chartToImage(chart);
   sendPhotoToTelegram(chatId, imageBlob, 'Weekly Summary');
 }
+
+function sendTripSpeed(chatId = ADMIN, caption) {
+  var chart = TRIP_SPEED.getCharts()[0];
+  var imageBlob = chartToImage(chart);
+  sendPhotoToTelegram(chatId, imageBlob, caption);
+}
