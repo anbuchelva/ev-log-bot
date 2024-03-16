@@ -29,6 +29,7 @@ function sendToTelegram(chatId, message, keyboard, messageId) {
     chat_id: String(chatId),
     text: message,
     parse_mode: 'HTML',
+    disable_web_page_preview: true,
   };
 
   var keyboardRemoveMarkup = {
