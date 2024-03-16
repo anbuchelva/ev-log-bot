@@ -23,7 +23,7 @@ function doPost(request) {
         data,
       } = callback_query;
     }
-    if (ALLOWED_USER_IDS.includes(chatId)) {
+    if (ADMIN.includes(chatId)) {
       if (text !== undefined) {
         processText(message, chatId);
       } else if (callback_query !== undefined) {
