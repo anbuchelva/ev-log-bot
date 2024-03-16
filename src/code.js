@@ -185,3 +185,9 @@ function processText(message, chatId) {
     sendToTelegram(chatId, '❌ Unknown command.');
   }
 }
+function logMessage(request) {
+  if (LOG === 'true') {
+    // appendData(REQUESTS, [time_now, JSON.stringify(request, null, 4)]);
+    appendData(REQUESTS, [time_now, request]);
+  }
+}
