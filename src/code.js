@@ -181,7 +181,7 @@ function processText(message, chatId) {
     if (match && match.length > 1) {
       var newAtherToken = { TOKEN: match[1] };
       USER_PROPERTIES.setProperties(newAtherToken);
-      // OPTIONS.getRange('B5').setValue(match[1]);
+      OPTIONS.getRange('B5').setValue(match[1]);
       sendToTelegram(chatId, "✅ The ather token has been replaced successfully!\n\n" +
         "Old Token: <code>" + oldToken + "</code>\n\n" +
         "New Token: <code>" + match[1] + "</code>");
