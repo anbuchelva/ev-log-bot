@@ -281,59 +281,37 @@ function insertDataIntoSheet(data, telegramAlert) {
         if (horn_count) {
           hornData = horn_count.toFixed(0);
         }
-        if (start_loc_text) {
-          telegramSendVenue(ADMIN, start_loc_lat, start_loc_long, 'Start Location', start_loc_text);
-        } else {
-          telegramSendVenue(ADMIN, start_loc_lat, start_loc_long, 'Start Location', 'Name not available');
-        }
-        if (end_loc_text) {
-          telegramSendVenue(ADMIN, end_loc_lat, end_loc_long, 'End Location', end_loc_text);
-        } else {
-          telegramSendVenue(ADMIN, end_loc_lat, end_loc_long, 'End Location', 'Name not available');
-        }
+        // if (start_loc_text ){
+        //   telegramSendVenue(ADMIN, start_loc_lat, start_loc_long, 'Start Location', start_loc_text)
+        // } else {
+        //   telegramSendVenue(ADMIN, start_loc_lat, start_loc_long, 'Start Location', 'Name not available')
+        // }
+        // if (end_loc_text){
+        //   telegramSendVenue(ADMIN, end_loc_lat, end_loc_long, 'End Location', end_loc_text)
+        // } else {
+        //   telegramSendVenue(ADMIN, end_loc_lat, end_loc_long, 'End Location', 'Name not available')
+        // }
         var message =
-          '<b>A new 🛵 entry has been added.</b>\n' +
-          '\nStart Time: ' +
-          formatDateTime(start_time_ist) +
-          '\nEnd   Time: ' +
-          formatDateTime(end_time_ist) +
+          '<b>A new 🛵 <a href="https://anbuchelva.github.io/ev-log-bot/map?coordinates=' + ride_crumbs + '&speed=' + speedBase64String + '">ride entry</a> has been added.</b>\n' +
+          '\nStart Time: ' + formatDateTime(start_time_ist) +
+          '\nLocation: <a href=\"https://www.google.com/maps/search/?api=1&query=' + start_loc_lat + '%2C' + start_loc_long + '\">' + start_loc_text + '</a>' +
+          '\n\nEnd Time: ' + formatDateTime(end_time_ist) +
+          '\nLocation: <a href=\"https://www.google.com/maps/search/?api=1&query=' + end_loc_lat + '%2C' + end_loc_long + '\">' + end_loc_text + '</a>' +
+
           // locationData +
-          '\nDuration: ' +
-          Math.floor(time_s / 60) +
-          ' mins' +
-          '\nDistance: ' +
-          (distance_m / 1000).toFixed(1) +
-          ' Km' +
-          '\nEfficiency: ' +
-          efficiency_whpkm.toFixed(1) +
-          ' Wh/km' +
-          '\nFuel Savings: ₹' +
-          saving_tracker.toFixed(2) +
-          '\nRange: ' +
-          expected_range_kms.toFixed(1) +
-          ' Km' +
-          '\nTop Speed: ' +
-          max_display_speed_kmph.toFixed(1) +
-          ' Km/h' +
-          '\nAvg Speed: ' +
-          avg_display_speed_kmph.toFixed(1) +
-          ' Km/h' +
-          '\nSOC: ' +
-          ((energy_consumed_wh / 3240) * 100).toFixed(2) +
-          '%' +
-          '\nBraking Dist: ' +
-          (braking_distance_m / 1000).toFixed(1) +
-          ' Km' +
-          '\nCoasting Dist: ' +
-          (coasting_distance_m / 1000).toFixed(1) +
-          ' Km' +
-          '\nHorn Count: ' +
-          hornData +
-          modeData +
-          '\nRide Path: <a href="https://anbuchelva.github.io/ev-log-bot/map?coordinates=' + ride_crumbs + '&speed=' + speedBase64String + '">Open map</a>' +
-          '\n\nID:  <code>' +
-          id +
-          '</code>';
+          '\n\nDuration: ' + Math.floor(time_s / 60) + ' mins' +
+          '\nRange: ' + (expected_range_kms).toFixed(1) + ' Km' +
+          '\nEfficiency: ' + (efficiency_whpkm).toFixed(1) + ' Wh/km' +
+          '\nSOC: ' + (energy_consumed_wh / 3240 * 100).toFixed(2) + '%' +
+          '\nFuel Savings: ₹' + (saving_tracker).toFixed(2) +
+          '\nHorn Count: ' + hornData + modeData +
+
+          '\n\nDistance: ' + (distance_m / 1000).toFixed(1) + ' Km' +
+          '\nBraking Dist: ' + (braking_distance_m / 1000).toFixed(1) + ' Km' +
+          '\nCoasting Dist: ' + (coasting_distance_m / 1000).toFixed(1) + ' Km' +
+          '\nTop Speed: ' + (max_display_speed_kmph).toFixed(1) + ' Km/h' +
+          '\nAvg Speed: ' + (avg_display_speed_kmph).toFixed(1) + ' Km/h' +
+          '\n\nID:  <code>' + id + '</code>';
         sendToTelegram(ADMIN, message);
       }
       Logger.log('Updating ' + Number(i + 1) + ' of ' + data.length + ' records.');
