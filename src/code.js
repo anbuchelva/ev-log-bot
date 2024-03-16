@@ -2,6 +2,7 @@ var sheet = SpreadsheetApp.openById(SSID).getSheetByName('data');
 
 // doPost is for Post requests
 function doPost(request) {
+  // getIPAddress()
   try {
     var requestBody = JSON.parse(request.postData.contents);
     Logger.log(requestBody);
@@ -161,21 +162,21 @@ function processText(message, chatId) {
   } else if (message.text.toUpperCase() === 'MS') {
     monthlySummary();
   } else if (message.text.toUpperCase() === 'T') {
-    var newTrigger = { AUTO_TRIGGER: 'true' };
+    var newTrigger = { 'AUTO_TRIGGER': 'true' }
     USER_PROPERTIES.setProperties(newTrigger);
     AUTO_TRIGGER = USER_PROPERTIES.getProperty('AUTO_TRIGGER');
-    getDataFromApi();
-    sendToTelegram(chatId, '✅ API trigger is completed.');
+    triggerApiManually();
+    sendToTelegram(chatId, '🌀 API trigger is initiated, wait for a minute to complete.')
   } else if (message.text.toUpperCase() === 'O') {
     if (AUTO_TRIGGER === 'true') {
-      var newTrigger = { AUTO_TRIGGER: 'false' };
+      var newTrigger = { 'AUTO_TRIGGER': 'false' }
       USER_PROPERTIES.setProperties(newTrigger);
-      sendToTelegram(chatId, '❌ Auto Trigger is disabled.');
+      sendToTelegram(chatId, '❌ Auto Trigger is disabled.')
       AUTO_TRIGGER = USER_PROPERTIES.getProperty('AUTO_TRIGGER');
     } else {
-      var newTrigger = { AUTO_TRIGGER: 'true' };
+      var newTrigger = { 'AUTO_TRIGGER': 'true' }
       USER_PROPERTIES.setProperties(newTrigger);
-      sendToTelegram(chatId, '✅ Auto Trigger is enabled.');
+      sendToTelegram(chatId, '✅ Auto Trigger is enabled.')
       AUTO_TRIGGER = USER_PROPERTIES.getProperty('AUTO_TRIGGER');
     }
   } else if (message.text === 'G') {
