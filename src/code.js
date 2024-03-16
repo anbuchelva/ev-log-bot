@@ -2,7 +2,6 @@ var sheet = SpreadsheetApp.openById(SSID).getSheetByName('data');
 
 // doPost is for Post requests
 function doPost(request) {
-  // getIPAddress()
   try {
     var requestBody = JSON.parse(request.postData.contents);
     Logger.log(requestBody);
@@ -32,7 +31,10 @@ function doPost(request) {
         processCallback(data, chatId, messageId, callbackText);
       }
     } else {
-      sendToTelegram(chatId, `Hey ${firstName}! This bot is only for personal use.`);
+      sendToTelegram(
+        chatId,
+        `Hey ${firstName}! This bot is only for personal use. You may checkout @ather_india if you wish to setup for your own.`
+      );
     }
   } catch (error) {
     sendToTelegram(ADMIN, `Error in doPost(): ${error.message}`);
