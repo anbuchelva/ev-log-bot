@@ -313,6 +313,7 @@ function insertDataIntoSheet(data, telegramAlert) {
           '\nAvg Speed: ' + (avg_display_speed_kmph).toFixed(1) + ' Km/h' +
           '\n\nID:  <code>' + id + '</code>';
         sendToTelegram(ADMIN, message);
+        sendTripSpeed(ADMIN, "Trip Speed");
       }
       Logger.log('Updating ' + Number(i + 1) + ' of ' + data.length + ' records.');
     }
