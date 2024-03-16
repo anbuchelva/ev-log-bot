@@ -255,6 +255,7 @@ function insertDataIntoSheet(data, telegramAlert) {
         scooter_state,
         status,
         ride_crumbs,
+        speedString,
         // sampling_frequency_in_kms,
         // top_speed_vs_distance_values,
       ]);
