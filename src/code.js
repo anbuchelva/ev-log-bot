@@ -180,7 +180,22 @@ function processText(message, chatId) {
     }
   } else if (message.text === 'G') {
     AUTO_TRIGGER = USER_PROPERTIES.getProperty('AUTO_TRIGGER');
-    sendToTelegram(chatId, 'Auto Trigger is currently set to ' + AUTO_TRIGGER + '.');
+    sendToTelegram(chatId, 'Auto Trigger is currently set to ' + AUTO_TRIGGER + '.')
+  } else if (message.text.match(/AT\s/i)) {
+    var oldToken = TOKEN
+    const tokenRegex = /AT\s+(.*)/i;
+    const match = message.text.match(tokenRegex);
+    if (match && match.length > 1) {
+      var newAtherToken = { TOKEN: match[1] };
+      USER_PROPERTIES.setProperties(newAtherToken);
+      // OPTIONS.getRange('B5').setValue(match[1]);
+      sendToTelegram(chatId, "✅ The ather token has been replaced successfully!\n\n" +
+        "Old Token: <code>" + oldToken + "</code>\n\n" +
+        "New Token: <code>" + match[1] + "</code>");
+      ATHER_TOKEN = USER_PROPERTIES.getProperty('TOKEN');
+    } else {
+      sendToTelegram(chatId, "❌ Token update failed");
+    }
   } else {
     sendToTelegram(chatId, '❌ Unknown command.');
   }
