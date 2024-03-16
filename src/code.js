@@ -1,5 +1,3 @@
-var sheet = SpreadsheetApp.openById(SSID).getSheetByName('data');
-
 // doPost is for Post requests
 function doPost(request) {
   // getIPAddress()

@@ -48,8 +48,8 @@ function getDataFromApi(limitVal, telegramAlert) {
 function insertDataIntoSheet(data, telegramAlert) {
   data.reverse();
   // Get all existing IDs from the sheet
-  var existingIds = sheet
-    .getRange(2, 1, sheet.getLastRow() - 1, 1)
+  var existingIds = DATA
+    .getRange(2, 1, DATA.getLastRow() - 1, 1)
     .getValues()
     .map(function (row) {
       return row[0];
@@ -188,7 +188,7 @@ function insertDataIntoSheet(data, telegramAlert) {
       }
 
       // Insert the data into the sheet
-      sheet.appendRow([
+      DATA.appendRow([
         id,
         start_time_tz,
         end_time_tz,
@@ -321,7 +321,7 @@ function insertDataIntoSheet(data, telegramAlert) {
   // calculate formula
   // calculateFormulaCols();
   // sort sheet as we fetch the data in descending order
-  sheet.sort(1);
+  DATA.sort(1);
 }
 
 // function calculateFormulaCols() {
