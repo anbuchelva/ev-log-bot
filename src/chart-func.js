@@ -202,5 +202,6 @@ function sendSummaryWk(chatId) {
 function sendTripSpeed(chatId = ADMIN, caption) {
   var chart = TRIP_SPEED.getCharts()[0];
   var imageBlob = chartToImage(chart);
-  sendPhotoToTelegram(chatId, imageBlob, caption);
+  var response = sendPhotoToTelegram(chatId, imageBlob, caption);
+  return response.result.message_id;
 }

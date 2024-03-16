@@ -290,7 +290,7 @@ function insertDataIntoSheet(data, telegramAlert) {
         //   telegramSendVenue(ADMIN, end_loc_lat, end_loc_long, 'End Location', 'Name not available')
         // }
         var message =
-          '<b>A new 🛵 <a href="https://anbuchelva.github.io/ev-log-bot/map?coordinates=' + ride_crumbs + '&speed=' + speedBase64String + '">ride entry</a> has been added.</b>\n' +
+          'Ride Path: <a href="https://anbuchelva.github.io/ev-log-bot/map?coordinates=' + ride_crumbs + '&speed=' + speedBase64String + '">Map</a>\n' +
           '\nStart Time: ' + formatDateTime(start_time_ist) +
           '\nLocation: <a href=\"https://www.google.com/maps/search/?api=1&query=' + start_loc_lat + '%2C' + start_loc_long + '\">' + start_loc_text + '</a>' +
           '\n\nEnd Time: ' + formatDateTime(end_time_ist) +
@@ -308,10 +308,12 @@ function insertDataIntoSheet(data, telegramAlert) {
           '\nBraking Dist: ' + (braking_distance_m / 1000).toFixed(1) + ' Km' +
           '\nCoasting Dist: ' + (coasting_distance_m / 1000).toFixed(1) + ' Km' +
           '\nTop Speed: ' + (max_display_speed_kmph).toFixed(1) + ' Km/h' +
-          '\nAvg Speed: ' + (avg_display_speed_kmph).toFixed(1) + ' Km/h' +
-          '\n\nID:  <code>' + id + '</code>';
-        sendToTelegram(ADMIN, message);
-        sendTripSpeed(ADMIN, "Trip Speed");
+          '\nAvg Speed: ' + (avg_display_speed_kmph).toFixed(1) + ' Km/h';
+        // +
+        //   '\n\nID:  <code>' + id + '</code>';        
+        var response = sendTripSpeed(ADMIN, "A new 🛵 ride entry has been added for ID: " + id);
+        sendToTelegram(ADMIN, message, false, response);
+        Utilities.sleep(30);
       }
       Logger.log('Updating ' + Number(i + 1) + ' of ' + data.length + ' records.');
     }

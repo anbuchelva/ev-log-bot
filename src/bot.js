@@ -52,7 +52,7 @@ function sendToTelegram(chatId, message, keyboard, messageId) {
     payload: payload,
   };
   var response = UrlFetchApp.fetch(TELEGRAM_URL, data);
-  //  logMessage(response)
+  logMessage(response)
   return response;
 }
 
@@ -93,7 +93,7 @@ function sendPhotoToTelegram(chatId, photoBlob, caption) {
   var response = UrlFetchApp.fetch(TELEGRAM_URL, data);
   // var response = UrlFetchApp.fetch(TELEGRAM_URL + 'sendPhoto', payload);
   Logger.log(response.getContentText()); // Log the response content
-  return response;
+  return JSON.parse(response);
 }
 
 function telegramSendVenue(chatId, latitude, longitude, title, address) {
