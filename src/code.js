@@ -127,7 +127,8 @@ function processText(message, chatId) {
       '\n<code>WS</code> - Weekly Summary' +
       '\n<code>MS</code> - Monthly Summary' +
       '\n<code>set A/B/C</code> - Set Trip A/B/C' +
-      '\n<code>get A/B/C</code> - Get Trip A/B/C info'
+      '\n<code>get A/B/C</code> - Get Trip A/B/C info' +
+      '\n<code>AT new token</code> - will replace the Ather token'
     );
   } else if (message.text.toUpperCase() === 'D') {
     sendToTelegram(chatId, '👇 Pick a chart for daily ride stats 📅', chartsDailyKeyboard);
