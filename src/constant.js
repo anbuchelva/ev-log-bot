@@ -15,6 +15,9 @@ var AUTO_TRIGGER = USER_PROPERTIES.getProperty('AUTO_TRIGGER');
 const DATA = GSHEETS.getSheetByName('data');
 const SUMMARY = GSHEETS.getSheetByName('summary');
 const BEST_MODE = GSHEETS.getSheetByName('BM');
+const LOG = GSHEETS.getSheetByName('logs');
+const TRIP_SPEED = GSHEETS.getSheetByName('TS');
+
 
 const DISTANCE_RANGE = GSHEETS.getSheetByName('D_DR');
 const DISTANCE_EFFICIENCY = GSHEETS.getSheetByName('D_DE');
