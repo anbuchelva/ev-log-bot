@@ -57,10 +57,8 @@ function processCallback(data, chatId, messageId, callbackText) {
   } else if (data === 'savings') {
     sendSavings(chatId);
     costSavingsSummary();
-  } else if (data === 'brake_non') {
-    sendBrakeNon(chatId);
-  } else if (data === 'coasting_non') {
-    sendCoastingNon(chatId);
+  } else if (data === 'ride_pattern') {
+    sendRidePattern(chatId);
   } else if (data === 'driving_mode') {
     sendDrivingMode(chatId);
   } else if (data === 'horn_count') {
@@ -80,10 +78,8 @@ function processCallback(data, chatId, messageId, callbackText) {
   } else if (data === 'savings_mon') {
     sendSavingsMon(chatId);
     costSavingsSummary();
-  } else if (data === 'brake_non_mon') {
-    sendBrakeNonMon(chatId);
-  } else if (data === 'coasting_non_mon') {
-    sendCoastingNonMon(chatId);
+  } else if (data === 'ride_pattern_mon') {
+    sendRidePatternMon(chatId);
   } else if (data === 'driving_mode_mon') {
     sendDrivingModeMon(chatId);
   } else if (data === 'horn_count_mon') {
@@ -103,10 +99,8 @@ function processCallback(data, chatId, messageId, callbackText) {
   } else if (data === 'savings_wk') {
     sendSavingsWk(chatId);
     costSavingsSummary();
-  } else if (data === 'brake_non_wk') {
-    sendBrakeNonWk(chatId);
-  } else if (data === 'coasting_non_wk') {
-    sendCoastingNonWk(chatId);
+  } else if (data === 'ride_pattern_wk') {
+    sendRidePatternWk(chatId);
   } else if (data === 'driving_mode_wk') {
     sendDrivingModeWk(chatId);
   } else if (data === 'horn_count_wk') {

@@ -49,16 +49,10 @@ function sendSavings(chatId) {
   sendPhotoToTelegram(chatId, imageBlob, 'Savings - Daily');
 }
 
-function sendBrakeNon(chatId) {
-  var chart = BRAKING_NON.getCharts()[0];
+function sendRidePattern(chatId) {
+  var chart = RIDE_PATTERN.getCharts()[0];
   var imageBlob = chartToImage(chart);
-  sendPhotoToTelegram(chatId, imageBlob, 'Braking vs. Non Braking Distance - Daily');
-}
-
-function sendCoastingNon(chatId) {
-  var chart = COASTING_NON.getCharts()[0];
-  var imageBlob = chartToImage(chart);
-  sendPhotoToTelegram(chatId, imageBlob, 'Coasting vs. Non Coasting Distance - Daily');
+  sendPhotoToTelegram(chatId, imageBlob, 'Ride Pattern - Daily');
 }
 
 function sendDrivingMode(chatId) {
@@ -115,16 +109,10 @@ function sendSavingsMon(chatId) {
   sendPhotoToTelegram(chatId, imageBlob, 'Savings - Monthly');
 }
 
-function sendBrakeNonMon(chatId) {
-  var chart = BRAKING_NON_MONTH.getCharts()[0];
+function sendRidePatternMon(chatId) {
+  var chart = RIDE_PATTERN_MONTH.getCharts()[0];
   var imageBlob = chartToImage(chart);
-  sendPhotoToTelegram(chatId, imageBlob, 'Braking vs. Non Braking Distance - Monthly');
-}
-
-function sendCoastingNonMon(chatId) {
-  var chart = COASTING_NON_MONTH.getCharts()[0];
-  var imageBlob = chartToImage(chart);
-  sendPhotoToTelegram(chatId, imageBlob, 'Coasting vs. Non Coasting Distance - Monthly');
+  sendPhotoToTelegram(chatId, imageBlob, 'Ride Pattern - Monthly');
 }
 
 function sendDrivingModeMon(chatId) {
@@ -181,16 +169,10 @@ function sendSavingsWk(chatId) {
   sendPhotoToTelegram(chatId, imageBlob, 'Savings - Weekly');
 }
 
-function sendBrakeNonWk(chatId) {
-  var chart = BRAKING_NON_WK.getCharts()[0];
+function sendRidePatternWk(chatId) {
+  var chart = RIDE_PATTERN_WK.getCharts()[0];
   var imageBlob = chartToImage(chart);
-  sendPhotoToTelegram(chatId, imageBlob, 'Braking vs. Non Braking Distance - Weekly');
-}
-
-function sendCoastingNonWk(chatId) {
-  var chart = COASTING_NON_WK.getCharts()[0];
-  var imageBlob = chartToImage(chart);
-  sendPhotoToTelegram(chatId, imageBlob, 'Coasting vs. Non Coasting Distance - Weekly');
+  sendPhotoToTelegram(chatId, imageBlob, 'Ride Pattern - Weekly');
 }
 
 function sendDrivingModeWk(chatId) {

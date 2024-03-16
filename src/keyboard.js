@@ -11,8 +11,7 @@ var chartsDailyKeyboard = {
       { text: '💰 Savings', callback_data: 'savings' },
     ],
     [
-      { text: '🛑 Braking', callback_data: 'brake_non' },
-      { text: '⏩ Coasting', callback_data: 'coasting_non' },
+      { text: '🏁 Ride Pattern', callback_data: 'ride_pattern' },
       { text: '📯 Horn', callback_data: 'horn_count' },
     ],
     [
@@ -36,8 +35,7 @@ var chartsWeeklyKeyboard = {
       { text: '💰 Savings', callback_data: 'savings_wk' },
     ],
     [
-      { text: '🛑 Braking', callback_data: 'brake_non_wk' },
-      { text: '⏩ Coasting', callback_data: 'coasting_non_wk' },
+      { text: '🏁 Ride Pattern', callback_data: 'ride_pattern_wk' },
       { text: '📯 Horn', callback_data: 'horn_count_wk' },
     ],
     [
@@ -61,8 +59,7 @@ var chartsMonthlyKeyboard = {
       { text: '💰 Savings', callback_data: 'savings_mon' },
     ],
     [
-      { text: '🛑 Braking', callback_data: 'brake_non_mon' },
-      { text: '⏩ Coasting', callback_data: 'coasting_non_mon' },
+      { text: '🏁 Ride Pattern', callback_data: 'ride_pattern_mon' },
       { text: '📯 Horn', callback_data: 'horn_count_mon' },
     ],
     [
