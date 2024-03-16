@@ -2,6 +2,7 @@ var sheet = SpreadsheetApp.openById(SSID).getSheetByName('data');
 
 // doPost is for Post requests
 function doPost(request) {
+  // getIPAddress()
   try {
     var requestBody = JSON.parse(request.postData.contents);
     Logger.log(requestBody);
