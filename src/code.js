@@ -123,18 +123,18 @@ function processText(message, chatId) {
     sendToTelegram(
       chatId,
       '🙏 <b>Welcome to Ride Log Bot</b> 🙏' +
-        '\n\nRemember the command letters:' +
-        '\n<code>D</code> - Daily Charts' +
-        '\n<code>W</code> - Weekly Charts' +
-        '\n<code>M</code> - Monthly Charts' +
-        '\n<code>T</code> - Trigger API & enable Triggers' +
-        '\n<code>G</code> - Get API Status' +
-        '\n<code>O</code> - Toggele Triggers ON or OFF' +
-        '\n<code>DS</code> - Daily Summary' +
-        '\n<code>WS</code> - Weekly Summary' +
-        '\n<code>MS</code> - Monthly Summary' +
-        '\n<code>set A/B/C</code> - Set Trip A/B/C' +
-        '\n<code>get A/B/C</code> - Get Trip A/B/C info'
+      '\n\nRemember the command letters:' +
+      '\n<code>D</code> - Daily Charts' +
+      '\n<code>W</code> - Weekly Charts' +
+      '\n<code>M</code> - Monthly Charts' +
+      '\n<code>T</code> - Trigger API & enable Triggers' +
+      '\n<code>G</code> - Get API Status' +
+      '\n<code>O</code> - Toggele Triggers ON or OFF' +
+      '\n<code>DS</code> - Daily Summary' +
+      '\n<code>WS</code> - Weekly Summary' +
+      '\n<code>MS</code> - Monthly Summary' +
+      '\n<code>set A/B/C</code> - Set Trip A/B/C' +
+      '\n<code>get A/B/C</code> - Get Trip A/B/C info'
     );
   } else if (message.text.toUpperCase() === 'D') {
     sendToTelegram(chatId, '👇 Pick a chart for daily ride stats 📅', chartsDailyKeyboard);
