@@ -8,7 +8,7 @@ const MAPS_KEY = USER_PROPERTIES.getProperty('MAPS_KEY');
 const ADMIN = USER_PROPERTIES.getProperty('ADMIN');
 const TELEGRAM_URL = 'https://api.telegram.org/bot' + BOT_TOKEN + '/';
 const WEBHOOK_URL = USER_PROPERTIES.getProperty('WEBHOOK_URL');
-const GSHEETS = SpreadsheetApp.openById(SSID);
+const GSHEETS = SpreadsheetApp.getActiveSpreadsheet();
 var AUTO_TRIGGER = USER_PROPERTIES.getProperty('AUTO_TRIGGER');
 const SOC_CAPACITY = parseInt(USER_PROPERTIES.getProperty('SOC_CAPACITY'));
 
