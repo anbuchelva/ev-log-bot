@@ -303,6 +303,8 @@ function insertDataIntoSheet(data, telegramAlert) {
         // } else {
         //   telegramSendVenue(ADMIN, end_loc_lat, end_loc_long, 'End Location', 'Name not available')
         // }
+        const brakingDistancePercentage = ((braking_distance_m / distance_m) * 100).toFixed(1);
+        const coastingDistancePercentage = ((coasting_distance_m / distance_m) * 100).toFixed(1);
         var message =
           'Start Time: ' + formatDateTime(start_time_ist) +
           '\nLocation: <a href=\"https://www.google.com/maps/search/?api=1&query=' + start_loc_lat + '%2C' + start_loc_long + '\">' + start_loc_text + '</a>' +
@@ -318,8 +320,8 @@ function insertDataIntoSheet(data, telegramAlert) {
           '\nHorn Count: ' + hornData + modeData +
 
           '\n\nDistance: ' + (distance_m / 1000).toFixed(1) + ' Km' +
-          '\nBraking Dist: ' + (braking_distance_m / 1000).toFixed(1) + ' Km' +
-          '\nCoasting Dist: ' + (coasting_distance_m / 1000).toFixed(1) + ' Km' +
+          '\nBraking Dist: ' + (braking_distance_m / 1000).toFixed(1) + ' Km (' + brakingDistancePercentage + ' %)' +
+          '\nCoasting Dist: ' + (coasting_distance_m / 1000).toFixed(1) + ' Km (' + coastingDistancePercentage + '%)' +
           '\nTop Speed: ' + (max_display_speed_kmph).toFixed(1) + ' Km/h' +
           '\nAvg Speed: ' + (avg_display_speed_kmph).toFixed(1) + ' Km/h';
         // +
