@@ -140,25 +140,15 @@ function insertDataIntoSheet(data, telegramAlert) {
       var scooter_state = tripData.scooter_state;
       var status = details.status;
 
-      if (details.polyline_with_speed) {
-        var polyline = details.polyline_with_speed;
-        if (polyline.ply) {
-          var ride_crumbs = polyline.ply;
-          var spd = polyline.spd;
-          var speedString = JSON.stringify(spd);
-          var speedBase64String = Utilities.base64Encode(speedString);
-        } else {
-          var ride_crumbs = null;
-          var spd = null;
-          var speedString = null;
-          var speedBase64String = null;
-        }
-      } else {
-        var ride_crumbs = null;
-        var spd = null;
-        var speedString = null;
-        var speedBase64String = null;
+      var ride_crumbs = null, spd = null, speedString = null, speedBase64String = null;
+
+      if (details.polyline_with_speed && details.polyline_with_speed.ply) {
+        ride_crumbs = details.polyline_with_speed.ply;
+        spd = details.polyline_with_speed.spd;
+        speedString = JSON.stringify(spd);
+        speedBase64String = Utilities.base64Encode(speedString);
       }
+
 
       // Extract and store the children of top_speed_vs_distance in separate columns
       // var top_speed_vs_distance = details.top_speed_vs_distance;
