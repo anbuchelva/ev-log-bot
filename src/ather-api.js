@@ -139,12 +139,26 @@ function insertDataIntoSheet(data, telegramAlert) {
       // Misc
       var scooter_state = tripData.scooter_state;
       var status = details.status;
-      // var ride_crumbs = details.ride_crumbs;
+
+      if (details.polyline_with_speed) {
       var polyline = details.polyline_with_speed;
+        if (polyline.ply) {
       var ride_crumbs = polyline.ply;
       var spd = polyline.spd;
       var speedString = JSON.stringify(spd);
       var speedBase64String = Utilities.base64Encode(speedString);
+        } else {
+          var ride_crumbs = null;
+          var spd = null;
+          var speedString = null;
+          var speedBase64String = null;
+        }
+      } else {
+        var ride_crumbs = null;
+        var spd = null;
+        var speedString = null;
+        var speedBase64String = null;
+      }
 
       // Extract and store the children of top_speed_vs_distance in separate columns
       // var top_speed_vs_distance = details.top_speed_vs_distance;
@@ -311,9 +325,15 @@ function insertDataIntoSheet(data, telegramAlert) {
           '\nAvg Speed: ' + (avg_display_speed_kmph).toFixed(1) + ' Km/h';
         // +
         //   '\n\nID:  <code>' + id + '</code>';        
+        if (speedBase64String) {
         var response = sendTripSpeed(ADMIN, "A new 🛵 ride entry has been added for ID: " + id);
+          var messageSufix = '\n\nRide Path: <a href="https://anbuchelva.github.io/ev-log-bot/map?coordinates=' + ride_crumbs + '&speed=' + speedBase64String + '">Map</a>'
+          message = message + messageSufix;
         sendToTelegram(ADMIN, message, false, response);
         Utilities.sleep(30);
+        } else {
+          sendToTelegram(ADMIN, message);
+        }
       }
       Logger.log('Updating ' + Number(i + 1) + ' of ' + data.length + ' records.');
     }
