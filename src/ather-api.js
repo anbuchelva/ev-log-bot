@@ -331,10 +331,10 @@ function insertDataIntoSheet(data, telegramAlert) {
           var messageSufix = '\n\nRide Path: <a href="https://anbuchelva.github.io/ev-log-bot/map?coordinates=' + ride_crumbs + '&speed=' + speedBase64String + '">Map</a>'
           message = message + messageSufix;
           sendToTelegram(ADMIN, message, false, response);
-          Utilities.sleep(30);
         } else {
           sendToTelegram(ADMIN, message);
         }
+        Utilities.sleep(30);
       }
       Logger.log('Updating ' + Number(i + 1) + ' of ' + data.length + ' records.');
     }
