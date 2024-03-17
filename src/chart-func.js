@@ -199,7 +199,7 @@ function sendSummaryWk(chatId) {
   sendPhotoToTelegram(chatId, imageBlob, 'Weekly Summary');
 }
 
-function sendTripSpeed(chatId = ADMIN, caption) {
+function sendTripSpeed(chatId, caption) {
   var chart = TRIP_SPEED.getCharts()[0];
   var imageBlob = chartToImage(chart);
   var response = sendPhotoToTelegram(chatId, imageBlob, caption);
