@@ -7,7 +7,7 @@ function dailySummary() {
       '\nDistance: ' + (dailyData[1]).toFixed(1) + ' Km' +
       getRideModeData(dailyData) +
       '\nBraking: ' + (dailyData[10]).toFixed(1) + ' Km' +
-      '\nCoasting: ' + (dailyData[14]).toFixed(1) + ' Km' +
+      '\nCoasting: ' + (dailyData[11]).toFixed(1) + ' Km' +
       '\n\n<code>-------:OTHER METRICS:--------</code>' +
       '\nDuration: ' + (dailyData[2] * 24 * 60).toFixed(0) + ' mins' +
       '\nEfficiency: ' + (dailyData[3]).toFixed(1) + ' Wh/km' +
@@ -33,7 +33,7 @@ function weeklySummary() {
       '\nDistance: ' + (weeklyData[1]).toFixed(1) + ' Km' +
       getRideModeData(weeklyData) +
       '\nBraking: ' + (weeklyData[10]).toFixed(1) + ' Km' +
-      '\nCoasting: ' + (weeklyData[14]).toFixed(1) + ' Km' +
+      '\nCoasting: ' + (weeklyData[11]).toFixed(1) + ' Km' +
       '\n\n<code>-------:OTHER METRICS:--------</code>' +
       '\nDuration: ' + (weeklyData[2] * 24 * 60).toFixed(0) + ' mins' +
       '\nEfficiency: ' + (weeklyData[3]).toFixed(1) + ' Wh/km' +
@@ -59,7 +59,7 @@ function monthlySummary() {
       '\nDistance: ' + (monthlyData[1]).toFixed(1) + ' Km' +
       getRideModeData(monthlyData) +
       '\nBraking: ' + (monthlyData[10]).toFixed(1) + ' Km' +
-      '\nCoasting: ' + (monthlyData[14]).toFixed(1) + ' Km' +
+      '\nCoasting: ' + (monthlyData[11]).toFixed(1) + ' Km' +
       '\n\n<code>-------:OTHER METRICS:--------</code>' +
       '\nDuration: ' + (monthlyData[2] * 24 * 60).toFixed(0) + ' mins' +
       '\nEfficiency: ' + (monthlyData[3]).toFixed(1) + ' Wh/km' +
