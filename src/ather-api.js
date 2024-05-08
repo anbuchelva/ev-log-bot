@@ -140,7 +140,7 @@ function insertDataIntoSheet(data, telegramAlert) {
       var scooter_state = tripData.scooter_state;
       var status = details.status;
 
-      var ride_crumbs = null, spd = null, speedString = null, speedBase64String = null;
+      var ride_crumbs = null, spd = null, speedString = null, speedBase64String = null, start_soc_percent=null, end_soc_percent=null;
 
       if (details.polyline_with_speed && details.polyline_with_speed.ply) {
         ride_crumbs = details.polyline_with_speed.ply;
@@ -148,7 +148,10 @@ function insertDataIntoSheet(data, telegramAlert) {
         speedString = JSON.stringify(spd);
         speedBase64String = Utilities.base64Encode(speedString);
       }
-
+      if(details.start_soc_percent && details.start_soc_percent){
+        start_soc_percent = details.start_soc_percent;
+        end_soc_percent = details.end_soc_percent;
+      }
 
       // Extract and store the children of top_speed_vs_distance in separate columns
       // var top_speed_vs_distance = details.top_speed_vs_distance;
@@ -258,6 +261,8 @@ function insertDataIntoSheet(data, telegramAlert) {
         status,
         ride_crumbs,
         speedString,
+        start_soc_percent,
+        end_soc_percent
         // sampling_frequency_in_kms,
         // top_speed_vs_distance_values,
       ]);
@@ -306,7 +311,9 @@ function insertDataIntoSheet(data, telegramAlert) {
           '\nDistance: ' + (distance_m / 1000).toFixed(1) + ' Km' + 
           '\nRange: ' + (expected_range_kms).toFixed(1) + ' Km' +
           '\nEfficiency: ' + (efficiency_whpkm).toFixed(1) + ' Wh/km' +
-          '\nSOC: ' + (energy_consumed_wh / SOC_CAPACITY * 100).toFixed(2) + '%' +          
+          '\nSOC: ' + (energy_consumed_wh / SOC_CAPACITY * 100).toFixed(2) + '%' +
+          '\nSOC Start: ' + start_soc_percent + '%' +
+          '\nSOC End: ' + end_soc_percent + '%' +
           '\nFuel Savings: ₹' + (saving_tracker).toFixed(2) +
           '\nHorn Count: ' + hornData + modeData +
           '\nBraking Dist: ' + (braking_distance_m / 1000).toFixed(1) + ' Km (' + brakingDistancePercentage + '%)' +
