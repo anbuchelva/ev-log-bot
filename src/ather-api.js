@@ -148,7 +148,7 @@ function insertDataIntoSheet(data, telegramAlert) {
         speedString = JSON.stringify(spd);
         speedBase64String = Utilities.base64Encode(speedString);
       }
-      if(details.start_soc_percent && details.start_soc_percent){
+      if(details.start_soc_percent && details.end_soc_percent){
         start_soc_percent = details.start_soc_percent;
         end_soc_percent = details.end_soc_percent;
       }
