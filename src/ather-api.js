@@ -95,7 +95,7 @@ function insertDataIntoSheet(data, telegramAlert) {
       var predictedrange_smart_eco = details.predictedrange_smart_eco;
       var predictedrange_ride = details.predictedrange_ride;
       var predictedrange_sport = details.predictedrange_sport;
-      var predictedrange_warp = details.predictedrange_warp;
+      var predictedrange_warp = details.predictedrange_warp + details.predictedrange_warp_plus;
 
       // distance in m
       var distance_m = tripData.distance_m;
@@ -105,7 +105,7 @@ function insertDataIntoSheet(data, telegramAlert) {
       var smart_eco_mode_distance_m = details.smart_eco_mode_distance_m;
       var ride_mode_distance_m = details.ride_mode_distance_m;
       var sport_mode_distance_m = details.sport_mode_distance_m;
-      var warp_mode_distance_m = details.warp_mode_distance_m;
+      var warp_mode_distance_m = details.warp_mode_distance_m + details.warp_plus_mode_distance_m;
 
       // distance in pct
       var braking_distance_pct = details.braking_distance_pct;
@@ -114,7 +114,7 @@ function insertDataIntoSheet(data, telegramAlert) {
       var smart_eco_mode_distance_pct = details.smart_eco_mode_distance_pct;
       var ride_mode_distance_pct = details.ride_mode_distance_pct;
       var sport_mode_distance_pct = details.sport_mode_distance_pct;
-      var warp_mode_distance_pct = details.warp_mode_distance_pct;
+      var warp_mode_distance_pct = details.warp_mode_distance_pct + details.warp_plus_mode_distance_pct;
 
       // Speed
       var max_display_speed_kmph = tripData.max_display_speed_kmph;
@@ -127,14 +127,14 @@ function insertDataIntoSheet(data, telegramAlert) {
       var smart_eco_mode_duration_s = details.smart_eco_mode_duration_s;
       var ride_mode_duration_s = details.ride_mode_duration_s;
       var sport_mode_duration_s = details.sport_mode_duration_s;
-      var warp_mode_duration_s = details.warp_mode_duration_s;
+      var warp_mode_duration_s = details.warp_mode_duration_s + details.warp_plus_mode_duration_s;
 
       // duration in pct
       var eco_mode_duration_pct = details.eco_mode_duration_pct;
       var smart_eco_mode_duration_pct = details.smart_eco_mode_duration_pct;
       var ride_mode_duration_pct = details.ride_mode_duration_pct;
       var sport_mode_duration_pct = details.sport_mode_duration_pct;
-      var warp_mode_duration_pct = details.warp_mode_duration_pct;
+      var warp_mode_duration_pct = details.warp_mode_duration_pct + details.warp_plus_mode_duration_pct;
 
       // Misc
       var scooter_state = tripData.scooter_state;
