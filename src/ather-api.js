@@ -295,34 +295,32 @@ function insertDataIntoSheet(data, telegramAlert) {
         // }
         const brakingDistancePercentage = ((braking_distance_m / distance_m) * 100).toFixed(1);
         const coastingDistancePercentage = ((coasting_distance_m / distance_m) * 100).toFixed(1);
+        const accelaratedDistancePercentage = (((distance_m - braking_distance_m - coasting_distance_m) / distance_m) * 100).toFixed(1)
+        var locationData = '🏁 Start Location: <a href=\"https://www.google.com/maps/search/?api=1&query=' + start_loc_lat + '%2C' + start_loc_long + '\">' + start_loc_text + '</a>' +
+          '\n\n🚩 End Location: <a href=\"https://www.google.com/maps/search/?api=1&query=' + end_loc_lat + '%2C' + end_loc_long + '\">' + end_loc_text + '</a>'
         var message =
-          'Start Time: ' + formatDateTime(start_time_ist) +
-          '\nLocation: <a href=\"https://www.google.com/maps/search/?api=1&query=' + start_loc_lat + '%2C' + start_loc_long + '\">' + start_loc_text + '</a>' +
-          '\n\nEnd Time: ' + formatDateTime(end_time_ist) +
-          '\nLocation: <a href=\"https://www.google.com/maps/search/?api=1&query=' + end_loc_lat + '%2C' + end_loc_long + '\">' + end_loc_text + '</a>' +
-
-          // locationData +
+          'A new 🛵 ride entry has been added' +
+          '\nStart Time: ' + formatDateTime(start_time_ist) +          
+          '\nEnd Time: ' + formatDateTime(end_time_ist) +          
           '\n\nDuration: ' + Math.floor(time_s / 60) + ' mins' +
+          '\nDistance: ' + (distance_m / 1000).toFixed(1) + ' Km' + 
           '\nRange: ' + (expected_range_kms).toFixed(1) + ' Km' +
           '\nEfficiency: ' + (efficiency_whpkm).toFixed(1) + ' Wh/km' +
-          '\nSOC: ' + (energy_consumed_wh / SOC_CAPACITY * 100).toFixed(2) + '%' +
+          '\nSOC: ' + (energy_consumed_wh / SOC_CAPACITY * 100).toFixed(2) + '%' +          
           '\nFuel Savings: ₹' + (saving_tracker).toFixed(2) +
           '\nHorn Count: ' + hornData + modeData +
-
-          '\n\nDistance: ' + (distance_m / 1000).toFixed(1) + ' Km' +
-          '\nBraking Dist: ' + (braking_distance_m / 1000).toFixed(1) + ' Km (' + brakingDistancePercentage + ' %)' +
+          '\nBraking Dist: ' + (braking_distance_m / 1000).toFixed(1) + ' Km (' + brakingDistancePercentage + '%)' +
           '\nCoasting Dist: ' + (coasting_distance_m / 1000).toFixed(1) + ' Km (' + coastingDistancePercentage + '%)' +
+          '\nAccelarated Dist: ' + ((distance_m / 1000) - (braking_distance_m / 1000) - (coasting_distance_m / 1000)).toFixed(1) + ' Km (' + (accelaratedDistancePercentage) + '%)' +
           '\nTop Speed: ' + (max_display_speed_kmph).toFixed(1) + ' Km/h' +
-          '\nAvg Speed: ' + (avg_display_speed_kmph).toFixed(1) + ' Km/h';
-        // +
-        //   '\n\nID:  <code>' + id + '</code>';
+          '\nAvg Speed: ' + (avg_display_speed_kmph).toFixed(1) + ' Km/h\n\n';
+          
         if (speedBase64String) {
-          var response = sendTripSpeed(ADMIN, "A new 🛵 ride entry has been added for ID: " + id);
-          var messageSufix = '\n\nRide Path: <a href="https://anbuchelva.github.io/ev-log-bot/map?coordinates=' + ride_crumbs + '&speed=' + speedBase64String + '">Map</a>'
-          message = message + messageSufix;
-          sendToTelegram(ADMIN, message, false, response);
+          var response = sendTripSpeed(ADMIN, message);
+          var ridePath = '\n\n🗺️ Ride Path: <a href="https://anbuchelva.github.io/ev-log-bot/map?coordinates=' + ride_crumbs + '&speed=' + speedBase64String + '">Map with Speed</a>'
+          sendToTelegram(ADMIN, locationData + ridePath, false, response);
         } else {
-          sendToTelegram(ADMIN, message);
+          sendToTelegram(ADMIN, message + locationData);
         }
         Utilities.sleep(30);
       }
