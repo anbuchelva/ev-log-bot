@@ -27,10 +27,10 @@ scooter_id = os.getenv("SCOOTER_ID")
 bearer_token = os.getenv("BEARER_TOKEN")
 
 
-historical_data = get_trip_logs(scooter_id, bearer_token)
-if historical_data:
-    save_to_file(historical_data, "historical_data.json")
-    print("Trip logs saved to historical_data.json")
+# historical_data = get_trip_logs(scooter_id, bearer_token)
+# if historical_data:
+#     save_to_file(historical_data, "historical_data.json")
+#     print("Trip logs saved to historical_data.json")
 
 trip_data = get_trip_logs(scooter_id, bearer_token, limit=20, sort_order="desc")
 if trip_data:
