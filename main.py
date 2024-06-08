@@ -2,10 +2,26 @@ import os
 from dotenv import load_dotenv
 import requests
 import json
+import hashlib
 load_dotenv()
 
 scooter_id = os.getenv("SCOOTER_ID")
 bearer_token = os.getenv("BEARER_TOKEN")
+
+
+def get_md5(filename):
+    """Calculate and return the MD5 hash of a file."""
+    hash_md5 = hashlib.md5()
+    with open(filename, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
+
+
+def check_md5(filename, previous_md5):
+    """Check if the MD5 hash of the file matches the server's MD5 hash."""
+    new_md5 = get_md5(filename)
+    return new_md5 == previous_md5
 
 
 def get_trip_logs(scooter_id, bearer_token, limit=None, sort_order="asc"):
@@ -53,4 +69,14 @@ def compare_history_and_trip_append(history_file, trip_file):
     with open(f'{history_file}.json', 'w') as f:
         json.dump(history_data, f, indent=4)
 
+def process_trip_data(scooter_id, bearer_token, limit, history_file):
+    trip_file = "trip_data"
 
+    # Get recent trip data
+    get_trip_data(scooter_id, bearer_token, limit, trip_file)
+
+    # Check if MD5 hashes match
+    if not check_md5(f"{trip_file}.json"):
+        # If MD5 hashes don't match, compare recent trips with historical data
+        compare_history_and_trip_append(history_file, trip_file)
+        print("Recent trips compared with historical data.")
