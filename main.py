@@ -39,3 +39,18 @@ def get_trip_data(scooter_id, bearer_token, limit, filename):
         save_to_file(trip_data, f"{filename}.json")
         print("Trip logs saved to trip_data.json")
 
+def compare_history_and_trip_append(history_file, trip_file):
+    with open(f'{history_file}.json', 'r') as f:
+        history_data = json.load(f)
+
+    with open(f'{trip_file}.json', 'r') as f:
+        recent_trips_data = json.load(f)
+
+    history_ids = {trip['id'] for trip in history_data}
+    new_trips = [trip for trip in recent_trips_data if trip['id'] not in history_ids]
+    history_data.extend(new_trips)
+
+    with open(f'{history_file}.json', 'w') as f:
+        json.dump(history_data, f, indent=4)
+
+
