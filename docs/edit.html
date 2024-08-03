@@ -53,10 +53,19 @@
             <label for="ef">Efficiency</label>
           </div>
           <div class="col-5">
-            <input type="text" id="ef" name="ef" value="" class="form-control" style="text-align: right" required />
+            <input type="text" id="ef" name="ef" value="" class="form-control" style="text-align: right"  />
           </div>
           <div class="col-2">
             <label>Wh/km</label>
+          </div>
+          <div class="col-5">
+            <label for="ef">Mileage</label>
+          </div>
+          <div class="col-5">
+            <input type="text" id="ml" name="ml" value="" class="form-control" style="text-align: right" />
+          </div>
+          <div class="col-2">
+            <label>unit/km</label>
           </div>
           <div class="col-5">
             <label for="ts">Top Speed</label>
@@ -128,6 +137,7 @@
       document.getElementById('di').value = dictionary.di || '';
       document.getElementById('du').value = dictionary.du || '';
       document.getElementById('ef').value = dictionary.ef || '';
+      document.getElementById('ml').value = dictionary.ml || '';
       document.getElementById('ts').value = dictionary.ts || '';
       document.getElementById('as').value = dictionary.as || '';
       document.getElementById('pr').value = dictionary.pr || '';
@@ -137,11 +147,15 @@
       var duInput = document.getElementById('du');
       var diInput = document.getElementById('di');
       var asInput = document.getElementById('as');
+      var efInput = document.getElementById('ef');
+      var mlInput = document.getElementById('ml');
 
       duInput.addEventListener('input', updateAverageSpeed);
       diInput.addEventListener('input', updateAverageSpeed);
       diInput.addEventListener('input', updateDuration);
       asInput.addEventListener('input', updateDuration);
+      efInput.addEventListener('input', updateMileage);
+      mlInput.addEventListener('input', updateEfficiency);
 
       function updateAverageSpeed() {
         var duValue = parseFloat(duInput.value);
@@ -151,6 +165,24 @@
           asInput.value = asValue;
         } else {
           asInput.value = '';
+        }
+      }
+      function updateMileage() {
+        var efValue = parseFloat(efInput.value);
+        if (!isNaN(efValue) && efValue !== 0) {
+          var mlValue = (1000/efValue).toFixed(2);
+          mlInput.value = mlValue;
+        } else {
+          mlInput.value = '';
+        }
+      }
+      function updateEfficiency() {
+        var mlValue = parseFloat(mlInput.value);
+        if (!isNaN(mlValue) && mlValue !== 0) {
+          var efValue = (1000/mlValue).toFixed(2);
+          efInput.value = efValue;
+        } else {
+          efInput.value = '';
         }
       }
       function updateDuration() {
@@ -165,6 +197,8 @@
       }
       updateAverageSpeed();
       updateDuration();
+      updateEfficiency();
+      updateMileage();
 
       Telegram.WebApp.ready();
       Telegram.WebApp.expand();

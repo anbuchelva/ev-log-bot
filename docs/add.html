@@ -53,10 +53,19 @@
             <label for="ef">Efficiency</label>
           </div>
           <div class="col-5">
-            <input type="text" id="ef" name="ef" value="" class="form-control" style="text-align: right" required />
+            <input type="text" id="ef" name="ef" value="" class="form-control" style="text-align: right"  />
           </div>
           <div class="col-2">
             <label>Wh/km</label>
+          </div>
+          <div class="col-5">
+            <label for="ef">Mileage</label>
+          </div>
+          <div class="col-5">
+            <input type="text" id="ml" name="ml" value="" class="form-control" style="text-align: right" />
+          </div>
+          <div class="col-2">
+            <label>unit/km</label>
           </div>
           <div class="col-5">
             <label for="ts">Top Speed</label>
@@ -108,6 +117,7 @@
       var duInput = document.getElementById('du');
       var diInput = document.getElementById('di');
       var efInput = document.getElementById('ef');
+      var efInput = document.getElementById('ml');
       var asInput = document.getElementById('as');
       var tsInput = document.getElementById('ts');
       var prInput = document.getElementById('pr');
