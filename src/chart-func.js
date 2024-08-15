@@ -34,7 +34,25 @@ function sendDistanceBatteryKm(chatId) {
 function sendBatteryUsagePerDay(chatId) {
   var chart = BATTERY.getCharts()[0];
   var imageBlob = chartToImage(chart);
-  sendPhotoToTelegram(chatId, imageBlob, 'Battery Usage per Day');
+  sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Battery % - Daily');
+}
+
+function sendBatteryDrainPerDay(chatId) {
+  var chart = BATTERY_ACTIVE_IDLE.getCharts()[0];
+  var imageBlob = chartToImage(chart);
+  sendPhotoToTelegram(chatId, imageBlob, 'Battery Usage - Day');
+}
+
+function sendBatteryDrainPerMon(chatId) {
+  var chart = BATTERY_ACTIVE_IDLE_MONTH.getCharts()[0];
+  var imageBlob = chartToImage(chart);
+  sendPhotoToTelegram(chatId, imageBlob, 'Battery Usage - Month');
+}
+
+function sendBatteryDrainPerWk(chatId) {
+  var chart = BATTERY_ACTIVE_IDLE_WK.getCharts()[0];
+  var imageBlob = chartToImage(chart);
+  sendPhotoToTelegram(chatId, imageBlob, 'Battery Usage - Week');
 }
 
 function sendTopAverageSpeedDay(chatId) {
@@ -94,7 +112,7 @@ function sendDistanceBatteryKmMon(chatId) {
 function sendBatteryUsagePerMon(chatId) {
   var chart = BATTERY_MONTH.getCharts()[0];
   var imageBlob = chartToImage(chart);
-  sendPhotoToTelegram(chatId, imageBlob, 'Battery Usage per Month');
+  sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Battery % - Monthly');
 }
 
 function sendTopAverageSpeedMon(chatId) {
@@ -154,7 +172,7 @@ function sendDistanceBatteryKmWk(chatId) {
 function sendBatteryUsagePerWk(chatId) {
   var chart = BATTERY_WK.getCharts()[0];
   var imageBlob = chartToImage(chart);
-  sendPhotoToTelegram(chatId, imageBlob, 'Battery Usage per Week');
+  sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Battery % - Weekly');
 }
 
 function sendTopAverageSpeedWk(chatId) {
