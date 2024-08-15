@@ -95,7 +95,7 @@ function insertDataIntoSheet(data, telegramAlert) {
       // var predictedrange_warp = details.predictedrange_warp;
       var predictedrange_warp = (details.predictedrange_warp_plus !== undefined) ? details.predictedrange_warp + details.predictedrange_warp_plus : details.predictedrange_warp;
 
-      
+
 
       // distance in m
       var distance_m = tripData.distance_m;
@@ -144,7 +144,7 @@ function insertDataIntoSheet(data, telegramAlert) {
       var scooter_state = tripData.scooter_state;
       var status = details.status;
 
-      var ride_crumbs = null, spd = null, speedString = null, speedBase64String = null, start_soc_percent=null, end_soc_percent=null;
+      var ride_crumbs = null, spd = null, speedString = null, speedBase64String = null, start_soc_percent = null, end_soc_percent = null;
 
       if (details.polyline_with_speed && details.polyline_with_speed.ply) {
         ride_crumbs = details.polyline_with_speed.ply;
@@ -152,7 +152,7 @@ function insertDataIntoSheet(data, telegramAlert) {
         speedString = JSON.stringify(spd);
         speedBase64String = Utilities.base64Encode(speedString);
       }
-      if(details.start_soc_percent && details.end_soc_percent){
+      if (details.start_soc_percent && details.end_soc_percent) {
         start_soc_percent = details.start_soc_percent;
         end_soc_percent = details.end_soc_percent;
       }
@@ -309,10 +309,10 @@ function insertDataIntoSheet(data, telegramAlert) {
           '\n\n🚩 End Location: <a href=\"https://www.google.com/maps/search/?api=1&query=' + end_loc_lat + '%2C' + end_loc_long + '\">' + end_loc_text + '</a>'
         var message =
           'A new 🛵 ride entry has been added' +
-          '\nStart Time: ' + formatDateTime(start_time_ist) +          
-          '\nEnd Time: ' + formatDateTime(end_time_ist) +          
+          '\nStart Time: ' + formatDateTime(start_time_ist) +
+          '\nEnd Time: ' + formatDateTime(end_time_ist) +
           '\n\nDuration: ' + Math.floor(time_s / 60) + ' mins' +
-          '\nDistance: ' + (distance_m / 1000).toFixed(1) + ' Km' + 
+          '\nDistance: ' + (distance_m / 1000).toFixed(1) + ' Km' +
           '\nRange: ' + (expected_range_kms).toFixed(1) + ' Km' +
           '\nEfficiency: ' + (efficiency_whpkm).toFixed(1) + ' Wh/km' +
           '\nSOC: ' + (energy_consumed_wh / SOC_CAPACITY * 100).toFixed(2) + '%' +
@@ -325,7 +325,7 @@ function insertDataIntoSheet(data, telegramAlert) {
           '\nAccelarated Dist: ' + ((distance_m / 1000) - (braking_distance_m / 1000) - (coasting_distance_m / 1000)).toFixed(1) + ' Km (' + (accelaratedDistancePercentage) + '%)' +
           '\nTop Speed: ' + (max_display_speed_kmph).toFixed(1) + ' Km/h' +
           '\nAvg Speed: ' + (avg_display_speed_kmph).toFixed(1) + ' Km/h\n\n';
-          
+
         if (speedBase64String) {
           var response = sendTripSpeed(ADMIN, message);
           var ridePath = '\n\n🗺️ Ride Path: <a href="https://anbuchelva.github.io/ev-log-bot/map?coordinates=' + ride_crumbs + '&speed=' + speedBase64String + '">Map with Speed</a>'
