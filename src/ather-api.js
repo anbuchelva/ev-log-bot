@@ -59,6 +59,9 @@ function insertDataIntoSheet(data, telegramAlert) {
     // Check if the ID already exists in the sheet
     if (existingIds.indexOf(id) === -1) {
       var details = tripData.details;
+      var idleDrain = 0;
+      var charge = 0;
+      var odo = 0;
 
       // time
       var start_time_tz = tripData.start_time_tz;
@@ -143,6 +146,10 @@ function insertDataIntoSheet(data, telegramAlert) {
       // Misc
       var scooter_state = tripData.scooter_state;
       var status = details.status;
+      var odo = tripData.scooter.details.firebase_cache.bike.odo;
+      var odo_time_epoh = new Date(tripData.scooter.details.firebase_cache.lastSyncedTime);
+      var odo_time = convertEpochToIST(odo_time_epoh);
+
 
       var ride_crumbs = null, spd = null, speedString = null, speedBase64String = null, start_soc_percent = null, end_soc_percent = null;
 
@@ -155,6 +162,13 @@ function insertDataIntoSheet(data, telegramAlert) {
       if (details.start_soc_percent && details.end_soc_percent) {
         start_soc_percent = details.start_soc_percent;
         end_soc_percent = details.end_soc_percent;
+        var dataLastRow = DATA.getLastRow();
+        var previousEndSoc = DATA.getRange('BO' + (dataLastRow)).getValue();
+        if (start_soc_percent <= previousEndSoc) {
+          idleDrain = start_soc_percent - previousEndSoc;
+        } else {
+          charge = start_soc_percent - previousEndSoc;
+        }
       }
 
       // Extract and store the children of top_speed_vs_distance in separate columns
@@ -185,16 +199,18 @@ function insertDataIntoSheet(data, telegramAlert) {
         end_loc_text = getLocationName(end_loc_lat, end_loc_long);
         // if bing maps doesn't bring any output
         if (!end_loc_text) {
-          end_loc_text = 'End Location';
+          end_loc_text = 'End Location not extracted / available';
         }
       }
       // Utilities.sleep(1000);
       // if ather api doesn't bring any output
       if (!start_loc_text) {
-        start_loc_text = getLocationName(start_loc_lat, start_loc_long);
+        if (telegramAlert) {
+          start_loc_text = getLocationName(start_loc_lat, start_loc_long);
+        }
         if (!start_loc_text) {
           // if bing maps doesn't bring any output
-          start_loc_text = 'Start Location';
+          start_loc_text = 'Start Location not extracted / available';
         }
       }
 
@@ -266,32 +282,44 @@ function insertDataIntoSheet(data, telegramAlert) {
         ride_crumbs,
         speedString,
         start_soc_percent,
-        end_soc_percent
+        end_soc_percent,
+        idleDrain,
+        charge,
+        odo
         // sampling_frequency_in_kms,
         // top_speed_vs_distance_values,
       ]);
       if (telegramAlert) {
         var modeData = '';
+        var idleDrainData = '';
+        var chargingData = '';
         var hornData = 0;
         var locationData = '';
         if (eco_mode_distance_m) {
-          modeData += '\nEco Mode: ' + eco_mode_distance_pct.toFixed(1) + '%';
+          modeData += '\n├⟢ Eco Mode: ' + (eco_mode_distance_m / 1000).toFixed(1) + ' Km (' + eco_mode_distance_pct.toFixed(1) + '%)';
         }
         if (smart_eco_mode_distance_m) {
-          modeData += '\nSmart Eco Mode: ' + smart_eco_mode_distance_pct.toFixed(1) + '%';
+          modeData += '\n├⟢ Smart Eco Mode: ' + (smart_eco_mode_distance_m / 1000).toFixed(1) + ' Km (' + smart_eco_mode_distance_pct.toFixed(1) + '%)';
         }
         if (ride_mode_distance_m) {
-          modeData += '\nRide Mode: ' + ride_mode_distance_pct.toFixed(1) + '%';
+          modeData += '\n├⟢ Ride Mode: ' + (ride_mode_distance_m / 1000).toFixed(1) + ' Km (' + ride_mode_distance_pct.toFixed(1) + '%)';
         }
         if (sport_mode_distance_m) {
-          modeData += '\nSport Mode: ' + sport_mode_distance_pct.toFixed(1) + '%';
+          modeData += '\n├⟢ Sport Mode: ' + (sport_mode_distance_m / 1000).toFixed(1) + ' Km (' + sport_mode_distance_pct.toFixed(1) + '%)';
         }
         if (warp_mode_distance_m) {
-          modeData += '\nWarp Mode: ' + warp_mode_distance_pct.toFixed(1) + '%';
+          modeData += '\n├⟢ Warp (+) Mode: ' + (warp_mode_distance_m / 1000).toFixed(1) + ' Km (' + warp_mode_distance_pct.toFixed(1) + '%)';
         }
         if (horn_count) {
           hornData = horn_count.toFixed(0);
         }
+        if (idleDrain) {
+          idleDrainData = '\n├⟢ Idle Drain: -' + Number(idleDrain) * -1 + '%';
+        }
+        if (charge) {
+          chargingData = '\n├⟢ Charging: +' + Number(charge) + '%';
+        }
+        setBatteryAlert('true')
         // if (start_loc_text ){
         //   telegramSendVenue(ADMIN, start_loc_lat, start_loc_long, 'Start Location', start_loc_text)
         // } else {
@@ -309,26 +337,45 @@ function insertDataIntoSheet(data, telegramAlert) {
           '\n\n🚩 End Location: <a href=\"https://www.google.com/maps/search/?api=1&query=' + end_loc_lat + '%2C' + end_loc_long + '\">' + end_loc_text + '</a>'
         var message =
           'A new 🛵 ride entry has been added' +
-          '\nStart Time: ' + formatDateTime(start_time_ist) +
-          '\nEnd Time: ' + formatDateTime(end_time_ist) +
-          '\n\nDuration: ' + Math.floor(time_s / 60) + ' mins' +
-          '\nDistance: ' + (distance_m / 1000).toFixed(1) + ' Km' +
-          '\nRange: ' + (expected_range_kms).toFixed(1) + ' Km' +
-          '\nEfficiency: ' + (efficiency_whpkm).toFixed(1) + ' Wh/km' +
-          '\nSOC: ' + (energy_consumed_wh / SOC_CAPACITY * 100).toFixed(2) + '%' +
-          '\nSOC Start: ' + start_soc_percent + '%' +
-          '\nSOC End: ' + end_soc_percent + '%' +
-          '\nFuel Savings: ₹' + (saving_tracker).toFixed(2) +
-          '\nHorn Count: ' + hornData + modeData +
-          '\nBraking Dist: ' + (braking_distance_m / 1000).toFixed(1) + ' Km (' + brakingDistancePercentage + '%)' +
-          '\nCoasting Dist: ' + (coasting_distance_m / 1000).toFixed(1) + ' Km (' + coastingDistancePercentage + '%)' +
-          '\nAccelarated Dist: ' + ((distance_m / 1000) - (braking_distance_m / 1000) - (coasting_distance_m / 1000)).toFixed(1) + ' Km (' + (accelaratedDistancePercentage) + '%)' +
-          '\nTop Speed: ' + (max_display_speed_kmph).toFixed(1) + ' Km/h' +
-          '\nAvg Speed: ' + (avg_display_speed_kmph).toFixed(1) + ' Km/h\n\n';
+          '\n╭─◉ <b>Time </b>' +
+          '\n├⟢ Start Time: ' + formatDateTime(start_time_ist) +
+          '\n├⟢ End Time: ' + formatDateTime(end_time_ist) +
+          '\n├⟢ Duration: ' + Math.floor(time_s / 60) + ' mins' +
+          '\n╰─◉' +
+          '\n╭─◉ <b>Distance</b>' +
+          '\n├⟢ Distance: ' + (distance_m / 1000).toFixed(1) + ' Km' + modeData +
+          '\n├⟢ Braking Dist: ' + (braking_distance_m / 1000).toFixed(1) + ' Km (' + brakingDistancePercentage + '%)' +
+          '\n├⟢ Coasting Dist: ' + (coasting_distance_m / 1000).toFixed(1) + ' Km (' + coastingDistancePercentage + '%)' +
+          '\n├⟢ Riding Dist: ' + ((distance_m / 1000) - (braking_distance_m / 1000) - (coasting_distance_m / 1000)).toFixed(1) + ' Km (' + (accelaratedDistancePercentage) + '%)' +
+          '\n╰─◉' +
+          '\n╭─◉ <b>ODO</b>' +
+          '\n├⟢ ODO: ' + Number(odo).toFixed(1) + ' Km' +
+          '\n├⟢ Time: ' + odo_time +
+          '\n╰─◉' +
+          '\n╭─◉ <b>Range & Efficiency</b>' +
+          '\n├⟢ Range: ' + (expected_range_kms).toFixed(1) + ' Km' +
+          '\n├⟢ Efficiency: ' + (efficiency_whpkm).toFixed(1) + ' Wh/km' +
+          '\n╰─◉' +
+          '\n╭─◉ <b>Battery</b>' +
+          '\n├⟢ SOC Start: ' + start_soc_percent + '%' +
+          '\n├⟢ SOC End: ' + end_soc_percent + '%' +
+          '\n├⟢ Active Drain: -' + (energy_consumed_wh / SOC_CAPACITY * 100).toFixed(2) + '%' + idleDrainData + chargingData +
+          '\n╰─◉' +
+          '\n╭─◉ <b>Other Metrics</b>' +
+          '\n├⟢ Fuel Savings: ₹' + (saving_tracker).toFixed(2) +
+          '\n├⟢ Horn Count: ' + hornData +
+          '\n├⟢ Top Speed: ' + (max_display_speed_kmph).toFixed(1) + ' Km/h' +
+          '\n├⟢ Avg Speed: ' + (avg_display_speed_kmph).toFixed(1) + ' Km/h' +
+          '\n├⟢ Trip ID: <code>' + id + '</code>' +
+          '\n╰─◉';
 
         if (speedBase64String) {
           var response = sendTripSpeed(ADMIN, message);
-          var ridePath = '\n\n🗺️ Ride Path: <a href="https://anbuchelva.github.io/ev-log-bot/map?coordinates=' + ride_crumbs + '&speed=' + speedBase64String + '">Map with Speed</a>'
+          if ((ride_crumbs.length + speedBase64String.length) < 2000) {
+            var ridePath = '\n\n🗺️ Ride Path: <a href="https://anbuchelva.github.io/ev-log-bot/map?coordinates=' + ride_crumbs + '&speed=' + speedBase64String + '">Map with Speed</a>'
+          } else {
+            var ridePath = '\n\n🗺️ Ride Path: <a href="' + WEBHOOK_URL + '?id=' + id + '">Map with Speed</a>';
+          }
           sendToTelegram(ADMIN, locationData + ridePath, false, response);
         } else {
           sendToTelegram(ADMIN, message + locationData);
@@ -342,6 +389,9 @@ function insertDataIntoSheet(data, telegramAlert) {
   // calculateFormulaCols();
   // sort sheet as we fetch the data in descending order
   DATA.sort(1);
+  if (telegramAlert && data[data.length - 1].details.end_soc_percent && BATTERY_ALERT == 'true') {
+    batteryAlert(Number(data[data.length - 1].details.end_soc_percent))
+  }
 }
 
 // function calculateFormulaCols() {
