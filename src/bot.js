@@ -83,6 +83,7 @@ function sendPhotoToTelegram(chatId, photoBlob, caption) {
     method: 'sendPhoto',
     chat_id: String(chatId),
     caption: caption,
+    parse_mode: 'HTML',
     photo: photoBlob,
   };
   var data = {
