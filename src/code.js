@@ -40,6 +40,18 @@ function doPost(request) {
   }
 }
 
+function doGet(request) {
+  if (request.parameter.id) {
+    var id = request.parameter.id;
+    return fetchMapsData(id);
+  } else if (request.parameter.apphome) {
+    var rawString = request.parameter.apphome;
+    appHomeDetails(rawString)
+  } else {
+    return HtmlService.createHtmlOutput('Invalid request. No valid parameters provided.');
+  }
+}
+
 // Function to process callbacks
 function processCallback(data, chatId, messageId, callbackText) {
   if (data === 'distance_vs_range') {
@@ -50,6 +62,8 @@ function processCallback(data, chatId, messageId, callbackText) {
     sendDistanceBatteryKm(chatId);
   } else if (data === 'battery_per_day') {
     sendBatteryUsagePerDay(chatId);
+  } else if (data === 'battery_drain_day') {
+    sendBatteryDrainPerDay(chatId);
   } else if (data === 'top_vs_avg_speed') {
     sendTopAverageSpeedDay(chatId);
   } else if (data === 'savings') {
@@ -71,6 +85,8 @@ function processCallback(data, chatId, messageId, callbackText) {
     sendDistanceBatteryKmMon(chatId);
   } else if (data === 'battery_per_mon') {
     sendBatteryUsagePerMon(chatId);
+  } else if (data === 'battery_drain_mon') {
+    sendBatteryDrainPerMon(chatId);
   } else if (data === 'top_vs_avg_speed_mon') {
     sendTopAverageSpeedMon(chatId);
   } else if (data === 'savings_mon') {
@@ -92,6 +108,8 @@ function processCallback(data, chatId, messageId, callbackText) {
     sendDistanceBatteryKmWk(chatId);
   } else if (data === 'battery_per_wk') {
     sendBatteryUsagePerWk(chatId);
+  } else if (data === 'battery_drain_wk') {
+    sendBatteryDrainPerWk(chatId);
   } else if (data === 'top_vs_avg_speed_wk') {
     sendTopAverageSpeedWk(chatId);
   } else if (data === 'savings_wk') {
@@ -107,6 +125,11 @@ function processCallback(data, chatId, messageId, callbackText) {
     sendSummaryWk(chatId);
   } else if (data === 'best_mode') {
     sendBestMode(chatId);
+  } else if (data === 'set_battery_alert_pct') {
+    sendToTelegram(ADMIN, "Send the target percentage for receiving alerts using the following syntax:\n\n<code>SOC value</code>" +
+      "\n\nFor example, type <code>SOC 50</code> to receive alerts when the battery level falls below 50%.");
+  } else if (data === 'skip_battery_alert') {
+    setBatteryAlert('false');
   }
 }
 
@@ -128,7 +151,7 @@ function processText(message, chatId) {
       '\n<code>MS</code> - Monthly Summary' +
       '\n<code>set A/B/C</code> - Set Trip A/B/C' +
       '\n<code>get A/B/C</code> - Get Trip A/B/C info' +
-      '\n<code>AT new token</code> - will replace the Ather token'
+      '\n<code>AT new-token</code> - will replace the Ather token'
     );
   } else if (message.text.toUpperCase() === 'D') {
     sendToTelegram(chatId, '👇 Pick a chart for daily ride stats 📅', chartsDailyKeyboard);
@@ -190,13 +213,85 @@ function processText(message, chatId) {
     } else {
       sendToTelegram(chatId, "❌ Token update failed");
     }
+  } else if (message.text.match(/SOC\s/i)) {
+    const socRegex = /SOC\s+(\d+)/i;
+    const match = message.text.match(socRegex);
+    if (match && match.length > 1) {
+      const socValue = parseInt(match[1], 10);
+      if (socValue >= 0 && socValue <= 100) {
+        setBatteryAlertCapacity(socValue);
+        sendToTelegram(chatId, '✅ <b>Target SOC is set for alerts</b> ✅\n\nYou will receive alerts when the battery drops below ' + socValue + '%.' +
+          "\n\nThe bot doesn't have access to fetch the current SOC from your vehicle.  " +
+          "It uses SOC % from the last ride; any idle drain after taking the ride is not considered.");
+      } else {
+        sendToTelegram(chatId, '❌ SOC value must be between 0 and 100.');
+      }
+    } else {
+      sendToTelegram(chatId, '❌ Invalid SOC command format.');
+    }
   } else {
     sendToTelegram(chatId, '❌ Unknown command.');
   }
 }
 function logMessage(request) {
-  if (LOG === 'true') {
-    // appendData(REQUESTS, [time_now, JSON.stringify(request, null, 4)]);
-    appendData(REQUESTS, [time_now, request]);
-  }
+  // if (LOG === 'true') {
+  appendData(LOG, [Date(), JSON.stringify(request, null, 4)]);
+  // appendData(LOG, [Date(), request]);
+  // }
 }
+
+
+// function appHomeDetails(rawString) {    
+//   logMessage(rawString)
+//   var lastSyncedTimeRegex = /lastSyncedTime=(\d+)/;  
+//   var bikeRegex = /speed=(\d+), mode=(\w+), batterySOC=(\d+\.\d+), range=(\d+), vehicleState=(\w+), bikeType=(\w+), otaAvailable=(\w*), softwareVersion=(.*)/;
+//   var lastSyncedTimeMatch = rawString.match(lastSyncedTimeRegex);
+//   var bikeMatch = rawString.match(bikeRegex);
+//   logMessage(lastSyncedTimeMatch)
+//   logMessage(bikeMatch)
+//   if (bikeMatch) {    
+//       var lastSyncedTime= convertEpohToIST(parseInt(lastSyncedTimeMatch[1]))
+//       var speed= parseInt(bikeMatch[1])
+//       var mode= bikeMatch[2]
+//       var batterySOC= parseFloat(bikeMatch[3])
+//       var range= parseInt(bikeMatch[4])
+//       var vehicleState = bikeMatch[5]
+//       var bikeType= bikeMatch[6]
+//       var otaAvailable= bikeMatch[7]
+//       var softwareVersion= bikeMatch[8]      
+//     APP_HOME.appendRow([Date(), lastSyncedTime, batterySOC, vehicleState, bikeType, softwareVersion, otaAvailable, range, speed, mode])
+//     // var message = "Battery %: " + batterySOC + "\nAs of: " + lastSyncedTime
+//     // sendToTelegram(ADMIN, message)
+//   } 
+// }
+
+
+function fetchMapsData(id) {
+  // var data = fetchMapsData(id);
+  var data = null;
+  var dataRange = DATA.getDataRange();
+  var values = dataRange.getValues();
+  for (var i = values.length - 1; i > 0; i--) {
+    if (values[i][0] === Number(id)) {
+      var coordinates = values[i][63];
+      var speed = values[i][64];
+      data = { coordinates: coordinates, speed: speed };
+    }
+  }
+  if (!data) {
+    return HtmlService.createHtmlOutput(
+      '<h1>Unable to generate map</h1>' +
+      '<body>' +
+      '<p>Check if the id ' + id + ' is available on the Google Sheets, data tab.</p>' +
+      '<p>Please contact the <a href="https://t.me/ather_india">the group</a> with the error screenshot that includes the url and the specifc ride details from "data" sheet.</p>' +
+      '</body>');
+  }
+  var template = HtmlService.createTemplateFromFile('map');
+  template.coordinates = data.coordinates;
+  template.speed = data.speed;
+  var htmlOutput = template.evaluate();
+  htmlOutput.setTitle('Ride Map for ID: ' + id);
+  return htmlOutput;
+}
+
+
