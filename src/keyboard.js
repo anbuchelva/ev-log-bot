@@ -7,7 +7,7 @@ var chartsDailyKeyboard = {
 
     ],
     [
-      { text: '🔋 SOC%/Km', callback_data: 'distance_vs_battery_km' },
+      { text: '🔋 Mileage', callback_data: 'mileage_day' },
       { text: '🪫 SOC% vs Km', callback_data: 'battery_per_day' },
       { text: '🪫 SOC Usage', callback_data: 'battery_drain_day' },
     ],
@@ -32,7 +32,7 @@ var chartsWeeklyKeyboard = {
       { text: '🏁 Ride Pattern', callback_data: 'ride_pattern_wk' },
     ],
     [
-      { text: '🔋 SOC%/Km', callback_data: 'distance_vs_battery_km_wk' },
+      { text: '🔋 Mileage', callback_data: 'mileage_wk' },
       { text: '🪫 SOC% vs KM', callback_data: 'battery_per_wk' },
       { text: '🪫 SOC Usage', callback_data: 'battery_drain_wk' },
     ],
@@ -57,7 +57,7 @@ var chartsMonthlyKeyboard = {
       { text: '🏁 Ride Pattern', callback_data: 'ride_pattern_mon' },
     ],
     [
-      { text: '🔋 SOC%/Km', callback_data: 'distance_vs_battery_km_mon' },
+      { text: '🔋 Mileage', callback_data: 'mileage_mon' },
       { text: '🪫 SOC% vs Km', callback_data: 'battery_per_mon' },
       { text: '🪫 SOC Usage', callback_data: 'battery_drain_mon' },
 

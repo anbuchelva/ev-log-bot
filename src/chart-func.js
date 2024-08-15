@@ -26,9 +26,9 @@ function sendDistanceEfficiency(chatId) {
 }
 
 function sendDistanceBatteryKm(chatId) {
-  var chart = DISTANCE_BATTERY.getCharts()[0];
+  var chart = MILEAGE.getCharts()[0];
   var imageBlob = chartToImage(chart);
-  sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Battery % / Km - Daily');
+  sendPhotoToTelegram(chatId, imageBlob, 'Mileage Km / Unit - Daily');
 }
 
 function sendBatteryUsagePerDay(chatId) {
@@ -104,9 +104,9 @@ function sendDistanceEfficiencyMon(chatId) {
 }
 
 function sendDistanceBatteryKmMon(chatId) {
-  var chart = DISTANCE_BATTERY_MONTH.getCharts()[0];
+  var chart = MILEAGE_MONTH.getCharts()[0];
   var imageBlob = chartToImage(chart);
-  sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Battery % / Km - Monthly');
+  sendPhotoToTelegram(chatId, imageBlob, 'Mileage Km / Unit - Monthly');
 }
 
 function sendBatteryUsagePerMon(chatId) {
@@ -164,9 +164,9 @@ function sendDistanceEfficiencyWk(chatId) {
 }
 
 function sendDistanceBatteryKmWk(chatId) {
-  var chart = DISTANCE_BATTERY_WK.getCharts()[0];
+  var chart = MILEAGE_WK.getCharts()[0];
   var imageBlob = chartToImage(chart);
-  sendPhotoToTelegram(chatId, imageBlob, 'Distance vs. Battery % / Km - Weekly');
+  sendPhotoToTelegram(chatId, imageBlob, 'Mileage Km / Unit - Weekly');
 }
 
 function sendBatteryUsagePerWk(chatId) {

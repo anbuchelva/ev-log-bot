@@ -24,7 +24,7 @@ const TRIP_SPEED = GSHEETS.getSheetByName('TS');
 
 const DISTANCE_RANGE = GSHEETS.getSheetByName('D_DR');
 const DISTANCE_EFFICIENCY = GSHEETS.getSheetByName('D_DE');
-const DISTANCE_BATTERY = GSHEETS.getSheetByName('D_DSK');
+const MILEAGE = GSHEETS.getSheetByName('D_DSK');
 const BATTERY = GSHEETS.getSheetByName('D_DS');
 const BATTERY_ACTIVE_IDLE = GSHEETS.getSheetByName('D_SOC');
 const TOP_AVG_SPEED = GSHEETS.getSheetByName('D_TA');
@@ -36,7 +36,7 @@ const DAILY_SUMMARY = GSHEETS.getSheetByName('DS');
 
 const DISTANCE_RANGE_MONTH = GSHEETS.getSheetByName('M_DR');
 const DISTANCE_EFFICIENCY_MONTH = GSHEETS.getSheetByName('M_DE');
-const DISTANCE_BATTERY_MONTH = GSHEETS.getSheetByName('M_DSK');
+const MILEAGE_MONTH = GSHEETS.getSheetByName('M_DSK');
 const BATTERY_MONTH = GSHEETS.getSheetByName('M_DS');
 const BATTERY_ACTIVE_IDLE_MONTH = GSHEETS.getSheetByName('M_SOC');
 const TOP_AVG_SPEED_MONTH = GSHEETS.getSheetByName('M_TA');
@@ -48,7 +48,7 @@ const MONTHLY_SUMMARY = GSHEETS.getSheetByName('MS');
 
 const DISTANCE_RANGE_WK = GSHEETS.getSheetByName('W_DR');
 const DISTANCE_EFFICIENCY_WK = GSHEETS.getSheetByName('W_DE');
-const DISTANCE_BATTERY_WK = GSHEETS.getSheetByName('W_DSK');
+const MILEAGE_WK = GSHEETS.getSheetByName('W_DSK');
 const BATTERY_WK = GSHEETS.getSheetByName('W_DS');
 const BATTERY_ACTIVE_IDLE_WK = GSHEETS.getSheetByName('W_SOC');
 const TOP_AVG_SPEED_WK = GSHEETS.getSheetByName('W_TA');
