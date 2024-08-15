@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        position: relative; /* Ensure the body has relative positioning */
+      }
+
+      #ride_map {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        left: 0%;
+        top: 0%;
+      }
+
+      .leaflet-container {
+        font-size: 1rem;
+      }
+
+      .legend {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        z-index: 1000; /* Ensure legend is above the map */
+      }
+
+      .legend-item {
+        margin-bottom: 5px;
+      }
+
+      .legend-color {
+        width: 15px;
+        height: 15px;
+        display: inline-block;
+        margin-right: 5px;
+        border: 1px solid #888;
+        border-radius: 60%;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css" />
+  </head>
+  <body>
+    <div class="folium-map" id="ride_map"></div>
+
+    <script>
+      function decodePolylineString(encoded) {
+        try {
+          var len = encoded.length;
+          var index = 0;
+          var latlngs = [];
+          var lat = 0;
+          var lng = 0;
+
+          while (index < len) {
+            var b;
+            var shift = 0;
+            var result = 0;
+
+            do {
+              b = encoded.charCodeAt(index++) - 63;
+              result |= (b & 0x1f) << shift;
+              shift += 5;
+            } while (b >= 0x20);
+
+            var dlat = (result & 1) !== 0 ? ~(result >> 1) : result >> 1;
+            lat += dlat;
+
+            shift = 0;
+            result = 0;
+
+            do {
+              b = encoded.charCodeAt(index++) - 63;
+              result |= (b & 0x1f) << shift;
+              shift += 5;
+            } while (b >= 0x20);
+
+            var dlng = (result & 1) !== 0 ? ~(result >> 1) : result >> 1;
+            lng += dlng;
+
+            latlngs.push([lat * 1e-5, lng * 1e-5]);
+          }
+
+          latlngs = latlngs.map(function (coord) {
+            return [parseFloat(coord[0].toFixed(5)), parseFloat(coord[1].toFixed(5))];
+          });
+
+          return latlngs;
+        } catch (error) {
+          console.error('Error decoding polyline:', error);
+          return null;
+        }
+      }
+
+      function splitPolylineIntoSegments(coordinates) {
+        var segments = [];
+        for (var i = 0; i < coordinates.length - 1; i++) {
+          var segment = {
+            start: coordinates[i],
+            end: coordinates[i + 1],
+          };
+          segments.push(segment);
+        }
+        return segments;
+      }
+
+      function getColorForSpeed(speed) {
+        if (speed < 30) return '#0dc216';
+        else if (speed < 50) return '#0000FF';
+        else if (speed < 70) return '#FF8C00';
+        else return '#FF0000';
+      }
+
+      var encodedCoordinates = <?= coordinates ?>;
+      var encodedSpeed = <?= speed ?>;
+
+      var decodedCoordinates = decodePolylineString(encodedCoordinates);
+      var decodedSpeed = encodedSpeed ? JSON.parse(encodedSpeed) : null;
+
+      if (!decodedCoordinates) {
+        document.body.innerHTML = '<h1>Error decoding polyline. Please check the input.</h1>';
+      } else {
+        var middleIndex = Math.floor(decodedCoordinates.length / 2);
+        var zoomLevel = Math.log2(1 / decodedCoordinates.length) + 19;
+
+        var ride_map = L.map('ride_map', {
+          center: decodedCoordinates[middleIndex],
+          zoom: zoomLevel,
+          zoomControl: true,
+          preferCanvas: false,
+        });
+
+        var tile_layer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          detectRetina: false,
+          maxNativeZoom: 19,
+          maxZoom: 19,
+          minZoom: 0,
+          noWrap: false,
+          opacity: 1,
+          tms: false,
+        }).addTo(ride_map);
+
+        var segments = splitPolylineIntoSegments(decodedCoordinates);
+
+        segments.forEach(function (segment, index) {
+          var color;
+          if (decodedSpeed) {
+            var speed = decodedSpeed[index];
+            color = getColorForSpeed(speed);
+          } else {
+            color = '#0000FF'; // Default to blue if speed data is missing
+          }
+          L.polyline([segment.start, segment.end], {
+            color: color,
+            weight: 3,
+          }).addTo(ride_map);
+        });
+
+        // Add markers for starting and ending positions
+        var startMarker = L.marker(decodedCoordinates[0], { icon: L.divIcon({ className: 'start-marker', html: '🟢' }) }).addTo(ride_map);
+        var endMarker = L.marker(decodedCoordinates[decodedCoordinates.length - 1], { icon: L.divIcon({ className: 'end-marker', html: '🟥' }) }).addTo(
+          ride_map
+        );
+
+        if (decodedSpeed) {
+          // Display the legend only if speed data is available
+          var legend = document.createElement('div');
+          legend.className = 'legend';
+          legend.innerHTML = `
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #0dc216;"></div>
+                    <span>&lt; 30</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #0000FF;"></div>
+                    <span>30 to 50</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #FF8C00;"></div>
+                    <span>50 to 70</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #FF0000;"></div>
+                    <span>&gt; 70</span>
+                </div>
+            `;
+          document.body.appendChild(legend);
+        }
+      }
+    </script>
+  </body>
+</html>
