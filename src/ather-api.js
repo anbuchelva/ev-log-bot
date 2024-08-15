@@ -1,9 +1,6 @@
 function getDataFromApi(limitVal, telegramAlert) {
   if (AUTO_TRIGGER.toLowerCase() === 'true') {
-    var url =
-      'https://cerberus.ather.io/api/v1/triplogs?scooter=' +
-      VIN +
-      '&limit=' + limitVal + '&select=distance_m%2Cefficiency_whpkm%2Ctime_s%2Cstart_loc_text%2Cend_loc_text%2Cend_time_tz%2Cmax_display_speed_kmph%2Cstart_time_tz%2Cexpected_range_kms%2Cdetails%2Cexternal_charge_consumed_kwh%2Cend_loc_long%2Cend_loc_lat%2Csaving_tracker%2Cstart_loc_long%2Cstart_loc_lat%2Cmoving_trip_duration_s%2Ccoasting_distance_m%2Cinternal_charge_consumed_kwh%2Cbraking_distance_m%2Cmini_sessions%2Cscooter_state%2CupdatedAt%2CcreatedAt&sort=start_time_tz%20desc&populate=false&is_deleted=false';
+    var url = 'https://cerberus.ather.io/api/v1/triplogs?scooter=' + VIN + '&limit=' + limitVal + '&sort=start_time_tz%20desc'
 
     // Set the headers
     var headers = {
