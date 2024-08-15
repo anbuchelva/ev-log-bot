@@ -98,8 +98,6 @@ function insertDataIntoSheet(data, telegramAlert) {
       // var predictedrange_warp = details.predictedrange_warp;
       var predictedrange_warp = (details.predictedrange_warp_plus !== undefined) ? details.predictedrange_warp + details.predictedrange_warp_plus : details.predictedrange_warp;
 
-
-
       // distance in m
       var distance_m = tripData.distance_m;
       var braking_distance_m = tripData.braking_distance_m;
@@ -196,7 +194,9 @@ function insertDataIntoSheet(data, telegramAlert) {
       var dateValue = extractDate(end_time_ist).date;
       // if ather api doesn't bring any output
       if (!end_loc_text) {
-        end_loc_text = getLocationName(end_loc_lat, end_loc_long);
+        if (telegramAlert) {
+          end_loc_text = getLocationName(end_loc_lat, end_loc_long);
+        }
         // if bing maps doesn't bring any output
         if (!end_loc_text) {
           end_loc_text = 'End Location not extracted / available';
@@ -350,11 +350,12 @@ function insertDataIntoSheet(data, telegramAlert) {
           '\n╰─◉' +
           '\n╭─◉ <b>ODO</b>' +
           '\n├⟢ ODO: ' + Number(odo).toFixed(1) + ' Km' +
-          '\n├⟢ Time: ' + odo_time +
+          '\n├⟢ Updated At: ' + odo_time +
           '\n╰─◉' +
           '\n╭─◉ <b>Range & Efficiency</b>' +
           '\n├⟢ Range: ' + (expected_range_kms).toFixed(1) + ' Km' +
           '\n├⟢ Efficiency: ' + (efficiency_whpkm).toFixed(1) + ' Wh/km' +
+          '\n├⟢ Mileage: ' + (1000 / (efficiency_whpkm)).toFixed(1) + ' Km/Unit' +
           '\n╰─◉' +
           '\n╭─◉ <b>Battery</b>' +
           '\n├⟢ SOC Start: ' + start_soc_percent + '%' +
@@ -366,7 +367,6 @@ function insertDataIntoSheet(data, telegramAlert) {
           '\n├⟢ Horn Count: ' + hornData +
           '\n├⟢ Top Speed: ' + (max_display_speed_kmph).toFixed(1) + ' Km/h' +
           '\n├⟢ Avg Speed: ' + (avg_display_speed_kmph).toFixed(1) + ' Km/h' +
-          '\n├⟢ Trip ID: <code>' + id + '</code>' +
           '\n╰─◉';
 
         if (speedBase64String) {
