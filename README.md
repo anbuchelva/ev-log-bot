@@ -1,2 +1,2 @@
 # Auto Log bot
-use this google sheet to setup the autobot: https://docs.google.com/spreadsheets/d/1rxWvm_IECv0Strv5V97evK1dt-F-VRDFiQTf88Dh8tA/edit?usp=sharing
+use this google sheet to setup the autobot: https://docs.google.com/spreadsheets/d/1Irf85NP-RdEXwcKdgSuXa67pGp5sKNlfusMNAPhA07g
