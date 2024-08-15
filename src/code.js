@@ -44,9 +44,6 @@ function doGet(request) {
   if (request.parameter.id) {
     var id = request.parameter.id;
     return fetchMapsData(id);
-  } else if (request.parameter.apphome) {
-    var rawString = request.parameter.apphome;
-    appHomeDetails(rawString)
   } else {
     return HtmlService.createHtmlOutput('Invalid request. No valid parameters provided.');
   }
